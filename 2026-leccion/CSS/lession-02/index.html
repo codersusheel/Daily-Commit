@@ -1,12 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>lession-02</title>
 </head>
+<style>
+    body {
+        margin: 10px;
+    }
+
+    .float {
+        margin: 10px;
+        padding: 10px;
+        height: 300px;
+        border: 2px solid rgb(0, 0, 0);
+        background-color: rgb(255, 255, 84);
+        width: 100%;
+        /* overflow: hidden; */
+        overflow: auto;
+    }
+
+    .float-a {
+        margin: 10px;
+        padding: 10px;
+        border: 2px solid rgb(0, 0, 0);
+        background-color: blanchedalmond;
+        height: 300px;
+        border-radius: 5px;
+
+    }
+
+    .box {
+        margin: 0 10px;
+        background-color: black;
+        height: 300px;
+        width: 300px;
+        float: left;
+        border-radius: 10px;
+    }
+
+    span {
+        font-size: 50px;
+    }
+</style>
+
 <body>
+
+    <div class="float">
+        <p>
+
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus esse impedit facere error, dolorem
+            voluptates nemo repudiandae, enim quia maxime reprehenderit beatae, alias sequi voluptatum quo earum illum
+            odio inventore harum nam saepe repellat aut. Magni, maxime, perferendis nemo repudiandae voluptate
+            reprehenderit quaerat quae in non adipisci cum odit voluptates nisi dignissimos fuga molestias dolores quis
+            rem repellendus deserunt. Nisi veniam, corrupti nostrum ut eligendi at amet quo dolores accusamus debitis
+            provident praesentium similique rerum accusantium perferendis sapiente numquam culpa omnis non doloribus.
+            Repellendus quis officiis ducimus dicta amet soluta voluptatum! Et laborum facilis eligendi sint. Magnam,
+            eligendi tempora. Distinctio in est perferendis consectetur dolores velit, tenetur, ad, vitae temporibus
+            quis sequi quo optio dolorum iusto nostrum possimus! Inventore atque quis modi eius cum neque quibusdam
+            adipisci, architecto itaque sit? Sit excepturi nisi illum error ipsa qui nesciunt autem eveniet praesentium
+            et cum molestias soluta facere temporibus magni nam iste laborum nemo repudiandae at, provident maxime,
+            eaque atque! Enim distinctio est veritatis sapiente vero ipsa assumenda non, odio tempore rem nemo
+            quibusdam, consectetur ex eos? Labore, natus! Aspernatur quasi itaque quis minima totam ratione harum
+            doloribus, alias facere, explicabo optio debitis mollitia? Sed perferendis harum maxime distinctio
+            reprehenderit in nulla, enim beatae magnam! Quasi inventore nulla asperiores. Modi accusamus rerum
+            consequatur quidem dolor ab ducimus iure maxime eveniet adipisci ipsum, repellendus illum ea commodi laborum
+            quisquam hic enim qui? Sunt, cumque quae? Maxime magnam, perspiciatis culpa voluptas minus, possimus enim
+            ratione dolor quos rem aut praesentium? Atque non, nulla repellat saepe quasi obcaecati praesentium
+            laudantium corrupti dolores magnam iste sequi fugit voluptas eveniet animi iure delectus perspiciatis
+            tenetur eos minus eum. Ea sequi aperiam quas in dignissimos aliquam numquam vel nisi minima molestias. Vitae
+            non repudiandae porro, ratione commodi temporibus delectus sint nostrum dolorum quam dicta eos ea pariatur
+            quidem cum ab doloribus molestias quia illum quo quas hic voluptatibus sit possimus. Nihil cumque
+            reiciendis, odio quae eos veritatis fugiat ipsam omnis pariatur doloribus veniam unde ex animi delectus.
+            Voluptas dolor id reiciendis laboriosam non? Tenetur aliquam animi libero harum dolores deserunt, atque et
+            laudantium corporis saepe molestiae possimus nemo temporibus quae. Iure provident nihil temporibus iusto
+            nemo, ab unde libero id pariatur necessitatibus tenetur rem quod obcaecati tempore veritatis eum assumenda
+            vero quisquam nostrum magni facilis incidunt blanditiis aperiam! Exercitationem totam ipsum vero numquam,
+            non quo id ut consectetur sit ab officia laboriosam magnam temporibus, quaerat praesentium tempore debitis.
+
+        </p>
+
+    </div>
+
+    <div class="float-a">
+        <div class="box">
+
+        </div>
+        <p> <span>,,</span>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium eveniet iure ipsam officia sapiente
+            quisquam ad, totam consectetur quia! Fugit.
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium eveniet iure ipsam officia sapiente
+            quisquam ad, totam consectetur quia! Fugit.
+        </p>
+
+
+
+    </div>
+
+    <div class="scroll-box">
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus adipisci, laboriosam consequatur dicta
+            ullam facilis dolore fuga fugiat non? Dicta!
+        </p>
+    </div>
+
+    <style>
+        .scroll-box {
+            background-color: aqua;
+            width: 300px;
+            /* height: 80px; */
+            border: 2px solid black;
+            /* overflow: auto; */
+            /* padding: 10px; */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+
+
+
+    <style>
+        .a-box {
+            width: 300px;
+            /* Box ki width */
+            border: 1px solid #000;
+            padding: 10px;
+
+            /* Dot-dot (ellipsis) ke liye zaroori lines */
+            white-space: nowrap;
+            /* Text ko next line mein jaane se rokta hai */
+            overflow: hidden;
+            /* Extra text ko chhupa deta hai */
+            text-overflow: ellipsis;
+            /* Text ke khatam hone par ... dikhata hai */
+        }
+    </style>
+
+    <div class="a-box">
+        <p>Yeh ek bahut bada paragraph hai jo box se bahar ja raha tha lekin ab dot-dot dikhayega.</p>
+    </div>
+
+
+    <div class="box-a">
+        <p>
+            Ye ek bahut lamba paragraph hai jo box ke andar fit nahi hota.
+            Jab text limit se zyada ho jaata hai to last mein automatically
+            dot dot dikhai deta hai taaki layout clean rahe aur design kharab na ho.
+            dot dot dikhai deta hai taaki layout clean rahe aur design kharab na ho.
+        </p>
+    </div>
+
+    <style>
+        .box-a {
+            width: 300px;
+            height: 80px;
+            padding: 10px;
+            border: 2px solid #000000;
+            background: #ffffff;
+        }
+
+        .box-a p {
+            margin: 0;
+            font-size: 15px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+
+
+    <section>
+        <div class="columns">
+            <P>Lorem ipsum dolor sit amet consectetur, adipisicing elit. At, ullam!</P>
+            <P style="color: pink;">Reprehenderit nobis, distinctio voluptatum nulla deserunt dolorum at sit rerum!</P>
+            <h1 style="background-color: antiquewhite;">Next topic</h1>
+            <P>Similique porro cumque sapiente quaerat accusamus? Repellat perspiciatis architecto et.</P>
+            <P>Laborum sapiente pariatur hic ad cum quia necessitatibus, quos provident.</P>
+            <P>At suscipit sed quibusdam nisi minus animi quaerat autem ipsa.</P>
+        </div>
+        <P>At suscipit sed quibusdam nisi minus animi quaerat autem ipsa.</P>
+    </section>
     
-    
+
+    <style>
+        .columns{
+            /* columns: 4; */
+            /* column-width: 250px; */
+            columns: 4 250px;
+            border: 2px solid red; 
+            column-rule: 2px solid black;
+        }
+    </style>
+
+
 </body>
+
 </html>
