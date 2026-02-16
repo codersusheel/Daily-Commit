@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lession-08</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    img {
+        display: block;
+    }
+
+    /* important  */
+    .nowrap {
+        white-space: nowrap;
+    }
+
+    .offscreen {
+        position: absolute;
+        left: -10000px;
+    }
+
+    body {
+        min-height: 100vh;
+    }
+
+    .min-hero {
+        background-image: url(img/pro.jpg);
+        background-color: rgb(251, 210, 156);
+        background-position: top;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+
+    }
+
+    .hero {
+        border-bottom: 2px solid black;
+        padding: 20px;
+        display: flex;
+        /* justify-content: center; */
+        /* justify-content: flex-start; */
+        align-items: center;
+        gap: 30px;
+
+        /* background-repeat: repeat-y; */
+        /* background-repeat: repeat-X; */
+
+        background-color: rgba(8, 160, 255, 0.401);
+    }
+
+    .h1 {
+        font-size: 500%;
+        color: rgb(255, 255, 255);
+        text-shadow: 2px 2px 5px black;
+    }
+
+    .profile-pic-figure {
+        width: 30%;
+        text-align: center;
+    }
+
+    .profile-pic-figure img {
+        width: 100%;
+        height: auto;
+        min-width: 100px;
+        /* border: 2px dashed black; */
+        border: 8px double rgb(118, 104, 104);
+        border-radius: 50%;
+    }
+
+    .example {
+        margin-top: 1rem;
+        padding-left: 20px;
+        border: 2px solid red;
+        display: none;
+
+    }
+
+    .example img {
+        width: 25%;
+        height: auto;
+    }
+
+    table {
+        display: none;
+    }
+</style>
+
+<body>
+
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>no</th>
+                <th>name</th>
+                <th>live</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>susheeel</td>
+                <td>love</td>
+            </tr>
+        </tbody>
+        <tfoot></tfoot>
+    </table>
+
+    <div class="min-hero">
+        <section class="hero">
+            <figure class="profile-pic-figure">
+                <img src="img/pro-3.jpg" alt="pro img 3" title="My profile pic" width="200" height="200">
+                <figcaption class="offscreen">
+                    susheel kuamr
+                </figcaption>
+            </figure>
+
+            <h1 class="h1">
+                <span class="nowrap">
+                    hello 🖐️
+                </span>
+                <span class="nowrap">
+                    I, am susheel
+                </span>
+            </h1>
+
+        </section>
+
+        <section class="example">
+            <p>
+                <img src="img/pro-01.png" alt="image pro-1" width="200" height="200">
+                this is pro-1 image.
+            </p>
+        </section>
+    </div>
+
+    <style>
+        .color-box{
+            
+        }
+
+
+    </style>
+
+    <section class="color-box">
+
+
+    </section>
+
+</body>
+
+</html>
