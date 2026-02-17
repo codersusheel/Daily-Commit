@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Contact Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        form {
+            max-width: 400px;
+            background: #fff;
+            padding: 20px;
+            margin: 40px auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input,
+        textarea,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form id="contactForm">
+        <h2>Contact Us</h2>
+
+        <!-- Hidden -->
+        <input type="hidden" name="ID" id="autoID">
+        <input type="hidden" name="Page_Source" value="about_form">
+        <input type="hidden" name="Date">
+        <input type="hidden" name="Time">
+
+        <!-- ================= BASIC USER INFO ================= -->
+        <input type="text" name="Full_Name" placeholder="Full Name" required>
+        <input type="email" name="Email" placeholder="Email">
+        <input type="text" name="Phone_Number" placeholder="Phone Number">
+
+
+        <!-- ================= cnoct ================= -->
+        <!-- <input type="text" name="subject" placeholder="Subject"> -->
+
+
+
+
+        <!-- <div class="input-group">
+            <input type="text" name="school_name" placeholder="School / Institute Name">
+        </div>
+
+        <div class="input-group">
+            <input type="text" name="city" placeholder="City">
+        </div> -->
+
+        <!-- ================= HR / COMPANY INFO ================= -->
+            <!-- <input type="text" name="subject" placeholder="Subject">
+
+            <input type="text" name="company_name" placeholder="Company Name">
+       
+            <input type="url" name="company_website" placeholder="Company Website URL">
+       
+
+            <input type="url" name="linkedin_profile" placeholder="LinkedIn Profile URL">
+       
+            <input type="url" name="github_profile" placeholder="GitHub Profile URL">
+   
+            <input type="text" name="hiring_role" placeholder="Position Hiring For">
+       
+
+        <div class="input-group">
+            <select name="employment_type">
+                <option value="">Employment Type</option>
+                <option>Internship</option>
+                <option>Full Time</option>
+                <option>Part Time</option>
+                <option>Contract</option>
+                <option>Freelance</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <select name="company_size">
+                <option value="">Company Size</option>
+                <option>1–10 Employees</option>
+                <option>11–50 Employees</option>
+                <option>51–200 Employees</option>
+                <option>201–500 Employees</option>
+                <option>500+</option>
+            </select>
+        </div>  -->
+
+        <!-- ================= INTEREST ================= -->
+        <!-- <div class="input-group">
+                <select name="interest">
+                    <option value="">Your Interest</option>
+                    <option>Web Development</option>
+                    <option>App Development</option>
+                    <option>UI / UX Design</option>
+                    <option>AI / ML</option>
+                    <option>Hackathons</option>
+                    <option>Support</option>
+                    <option>Other</option>
+                </select>
+            </div> -->
+
+        <!-- ================= FEEDBACK STAR RATING ================= -->
+        <!-- <div class="stars">
+                <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
+                <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
+                <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
+                <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
+                <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
+            </div> -->
+
+
+        <!-- /////////////////////////////////////////////////////////////////////////////////// -->
+
+
+
+        <textarea name="Message" placeholder="Your Message"></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            let form = e.target;
+            let submitBtn = form.querySelector("button[type='submit']");
+            submitBtn.disabled = true;   // 🚫 Disable button
+
+            let data = new FormData(form);
+
+            // ✅ Auto Increment ID
+            if (!localStorage.getItem("formCounter")) {
+                localStorage.setItem("formCounter", 0);
+            }
+
+            let count = parseInt(localStorage.getItem("formCounter")) + 1;
+            localStorage.setItem("formCounter", count);
+
+            let autoID = "#" + count;
+            data.set("ID", autoID);
+
+            // Date & Time
+            let now = new Date();
+            data.set("Date", now.toLocaleDateString());
+            data.set("Time", now.toLocaleTimeString());
+
+            fetch("https://sheetdb.io/api/v1/rz6thjkjd5949", {
+                method: "POST",
+                body: data
+            })
+                .then(res => res.json())
+                .then(() => {
+                    alert("✅ Form Submitted Successfully!");
+                    form.reset();
+                    submitBtn.disabled = false; // ✅ Enable again after success
+                })
+                .catch(err => {
+                    alert("❌ Error submitting form");
+                    console.log(err);
+                    submitBtn.disabled = false; // 🔁 Enable if error
+                });
+        });
+    </script>
+
+
+</body>
+
+</html>
