@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Contact Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        form {
+            max-width: 400px;
+            background: #fff;
+            padding: 20px;
+            margin: 40px auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input,
+        textarea,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form id="contactForm">
+        <h2>Contact Us</h2>
+        <input type="hidden" name="ID" id="autoID">
+
+        <input type="text" name="Full_Name" placeholder="Full Name" required>
+        <input type="text" name="Username" placeholder="Username" required>
+        <input type="email" name="Email" placeholder="Email" required>
+        <input type="text" name="Phone_Number" placeholder="Phone Number" required>
+        <textarea name="Message" placeholder="Your Message" required></textarea>
+
+        <!-- Hidden Fields -->
+        <input type="hidden" name="Page_Source" value="general_form">
+        <input type="hidden" name="Date">
+        <input type="hidden" name="Time">
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            let form = e.target;
+            let data = new FormData(form);
+
+
+            // ✅ Auto Increment ID (page session)
+            if (!localStorage.getItem("formCounter")) {
+                localStorage.setItem("formCounter", 0);
+            }
+
+            let count = parseInt(localStorage.getItem("formCounter")) + 1;
+            localStorage.setItem("formCounter", count);
+
+            // Final ID
+            let autoID = "#" + count;
+            data.set("ID", autoID);
+
+
+            // Set Date & Time
+            let now = new Date();
+            data.set("Date", now.toLocaleDateString());
+            data.set("Time", now.toLocaleTimeString());
+
+            fetch("https://sheetdb.io/api/v1/3j5wmhm6f1i2b", {
+                method: "POST",
+                body: data
+            })
+                .then(response => response.json())
+                .then(result => {
+                    alert("Form Submitted Successfully!");
+                    form.reset();
+                })
+                .catch(error => {
+                    alert("Error submitting form");
+                    console.error(error);
+                });
+        });
+    </script>
+
+</body>
+
+</html>

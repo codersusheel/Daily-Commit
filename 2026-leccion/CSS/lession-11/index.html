@@ -1,0 +1,649 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All In One Smart Form</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1f2933, #0f172a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .form-box {
+            background: #0b1220;
+            width: 100%;
+            max-width: 450px;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.15);
+        }
+
+        .form-box h2 {
+            color: #00f7ff;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: #020617;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            color: #fff;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            border-color: #00f7ff;
+        }
+
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            flex-direction: row-reverse;
+            margin: 15px 0;
+        }
+
+        .stars input {
+            display: none;
+        }
+
+        .stars label {
+            font-size: 28px;
+            color: #334155;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .stars input:checked~label,
+        .stars label:hover,
+        .stars label:hover~label {
+            color: #00f7ff;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #00f7ff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #0ff;
+            box-shadow: 0 0 12px #00f7ff;
+        }
+
+        footer {
+            margin-top: 15px;
+            text-align: center;
+            color: #64748b;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-box">
+
+        <h2>Smart Contact Form</h2>
+
+        <form method="post">
+
+
+            <input type="hidden" name="page_source" id="page_source">
+            <input type="hidden" name="date" id="date">
+            <input type="hidden" name="time" id="time">
+
+            <div class="input-group">
+                <input type="text" name="name" placeholder="Full Name" required>
+            </div>
+
+            <div class="input-group">
+                <input type="text" name="username" placeholder="Username">
+            </div>
+
+            <div class="input-group">
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+
+            <div class="input-group">
+                <input type="tel" name="phone" placeholder="Phone Number">
+            </div>
+
+            <div class="input-group">
+                <input type="text" name="subject" placeholder="Subject">
+            </div>
+
+            <div class="input-group">
+                <input type="text" name="School / Institute Name:" placeholder="School / Institute Name:">
+            </div>
+
+            <div class="input-group">
+                <input type="text" name="city" placeholder="City">
+            </div>
+            <div class="input-group">
+                <input type="text" name="company_name" placeholder="Company Name" required>
+            </div>
+            <div class="input-group">
+                <input type="url" name="company_website" placeholder="Company Website URL">
+            </div>
+            <div class="input-group">
+                <input type="url" name="linkedin_profile" placeholder="LinkedIn Profile URL">
+
+            </div>
+            <div class="input-group">
+                <input type="url" name="github_profile" placeholder="GitHub Profile URL">
+            </div>
+            <div class="input-group">
+                <input type="text" name="hiring_role" placeholder="Position Hiring For">
+                <select name="employment_type">
+                    <option value="">Employment Type</option>
+                    <option>Internship</option>
+                    <option>Full Time</option>
+                    <option>Part Time</option>
+                    <option>Contract</option>
+                    <option>Freelance</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <select name="company_size">
+                    <option value="">Company Size</option>
+                    <option>1–10 Employees</option>
+                    <option>11–50 Employees</option>
+                    <option>51–200 Employees</option>
+                    <option>201–500 Employees</option>
+                    <option>500+</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <select name="interest" required>
+                    <option value="">Your Interest</option>
+                    <option>Web Development</option>
+                    <option>App Development</option>
+                    <option>UI / UX Design</option>
+                    <option>AI / ML</option>
+                    <option>Hackathons</option>
+                    <option>Support</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="stars">
+                <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
+                <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
+                <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
+                <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
+                <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
+            </div>
+
+            <div class="input-group">
+                <textarea name="message" placeholder="Write your experience..."></textarea>
+            </div>
+
+
+
+            <button type="submit">Submit Now</button>
+
+        </form>
+
+        <footer>Powered by Haproven</footer>
+
+    </div>
+
+    <script>
+        /* Page Source Change Here */
+        document.getElementById("page_source").value = "contact_page";
+
+        /* Auto Date & Time */
+        const now = new Date();
+        document.getElementById("date").value = now.toLocaleDateString();
+        document.getElementById("time").value = now.toLocaleTimeString();
+    </script>
+
+</body>
+
+
+</html> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All In One General Form</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1f2933, #0f172a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .form-box {
+            background: #0b1220;
+            width: 100%;
+            max-width: 550px;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.15);
+        }
+
+        .form-box h2 {
+            color: #00f7ff;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: #020617;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            color: #fff;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            border-color: #00f7ff;
+        }
+
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            flex-direction: row-reverse;
+            margin: 15px 0;
+        }
+
+        .stars input {
+            display: none;
+        }
+
+        .stars label {
+            font-size: 28px;
+            color: #334155;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .stars input:checked~label,
+        .stars label:hover,
+        .stars label:hover~label {
+            color: #00f7ff;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #00f7ff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #0ff;
+            box-shadow: 0 0 12px #00f7ff;
+        }
+
+        footer {
+            margin-top: 15px;
+            text-align: center;
+            color: #64748b;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <!-- 
+    <input type="hidden" name="page_source" value="general_form">
+    <input type="hidden" name="page_source" value="support_form">
+    <input type="hidden" name="page_source" value="hr_form">
+    <input type="hidden" name="page_source" value="contact_form">
+    <input type="hidden" name="page_source" value="feedback_form">
+    <input type="hidden" name="page_source" value="Haproven_form"> -->
+
+
+    <div class="form-box">
+
+        <h2>All In One General Form</h2>
+
+        <form method="post" enctype="multipart/form-data">
+
+            <!-- ================= HIDDEN SYSTEM ================= -->
+            <input type="hidden" name="page_source" value="general_form">
+            <input type="hidden" name="date" id="date">
+            <input type="hidden" name="time" id="time">
+
+            <!-- ================= BASIC USER INFO ================= -->
+            <div class="input-group">
+                <input type="text" name="name" placeholder="Full Name" required>
+            </div>
+
+            <div class="input-group">
+                <input type="text" name="username" placeholder="Username">
+            </div>
+
+            <div class="input-group">
+                <input type="email" name="email" placeholder="Your Email / HR Email" required>
+            </div>
+
+            <div class="input-group">
+                <input type="tel" name="phone" placeholder="Phone / WhatsApp Number">
+            </div>
+
+            <div class="input-group">
+                <input type="text" name="school_name" placeholder="School / Institute Name">
+            </div>
+
+            <div class="input-group">
+                <input type="text" name="city" placeholder="City">
+            </div>
+
+            <!-- ================= HR / COMPANY INFO ================= -->
+            <div class="input-group">
+                <input type="text" name="subject" placeholder="Subject">
+            </div>
+
+            <div class="input-group">
+                <input type="text" name="company_name" placeholder="Company Name">
+            </div>
+
+            <div class="input-group">
+                <input type="url" name="company_website" placeholder="Company Website URL">
+            </div>
+
+            <div class="input-group">
+                <input type="url" name="linkedin_profile" placeholder="LinkedIn Profile URL">
+            </div>
+
+            <div class="input-group">
+                <input type="url" name="github_profile" placeholder="GitHub Profile URL">
+            </div>
+
+            <div class="input-group">
+                <input type="text" name="hiring_role" placeholder="Position Hiring For">
+            </div>
+
+            <div class="input-group">
+                <select name="employment_type">
+                    <option value="">Employment Type</option>
+                    <option>Internship</option>
+                    <option>Full Time</option>
+                    <option>Part Time</option>
+                    <option>Contract</option>
+                    <option>Freelance</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <select name="company_size">
+                    <option value="">Company Size</option>
+                    <option>1–10 Employees</option>
+                    <option>11–50 Employees</option>
+                    <option>51–200 Employees</option>
+                    <option>201–500 Employees</option>
+                    <option>500+</option>
+                </select>
+            </div>
+
+            <!-- ================= INTEREST ================= -->
+            <div class="input-group">
+                <select name="interest">
+                    <option value="">Your Interest</option>
+                    <option>Web Development</option>
+                    <option>App Development</option>
+                    <option>UI / UX Design</option>
+                    <option>AI / ML</option>
+                    <option>Hackathons</option>
+                    <option>Support</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <!-- ================= FEEDBACK STAR RATING ================= -->
+            <div class="stars">
+                <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
+                <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
+                <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
+                <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
+                <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
+            </div>
+
+            <!-- ================= MESSAGE ================= -->
+            <div class="input-group">
+                <textarea name="message" placeholder="Write your message / experience..."></textarea>
+            </div>
+
+
+            <button type="submit">Submit Now</button>
+
+        </form>
+
+        <footer>Powered by Susheelcoder</footer>
+
+    </div>
+
+
+
+
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            let form = e.target;
+            let data = new FormData(form);
+
+
+            // ✅ Auto Increment ID (page session)
+            if (!localStorage.getItem("formCounter")) {
+                localStorage.setItem("formCounter", 0);
+            }
+
+            let count = parseInt(localStorage.getItem("formCounter")) + 1;
+            localStorage.setItem("formCounter", count);
+
+            // Final ID
+            let autoID = "#" + count;
+            data.set("ID", autoID);
+
+
+            // Set Date & Time
+            let now = new Date();
+            data.set("Date", now.toLocaleDateString());
+            data.set("Time", now.toLocaleTimeString());
+
+            fetch("https://sheetdb.io/api/v1/3j5wmhm6f1i2b", {
+                method: "POST",
+                body: data
+            })
+                .then(response => response.json())
+                .then(result => {
+                    alert("Form Submitted Successfully!");
+                    form.reset();
+                })
+                .catch(error => {
+                    alert("Error submitting form");
+                    console.error(error);
+                });
+        });
+    </script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+<script>
+    const form = document.querySelector("form");
+
+    // Auto set Date, Time, Timestamp
+    function setSystemData() {
+        const now = new Date();
+
+        const date = now.toISOString().split("T")[0];   // YYYY-MM-DD
+        const time = now.toTimeString().split(" ")[0]; // HH:MM:SS
+        const timestamp = now.toISOString();
+
+        document.getElementById("date").value = date;
+        document.getElementById("time").value = time;
+
+        let tsInput = document.querySelector('input[name="Timestamp"]');
+        if (!tsInput) {
+            tsInput = document.createElement("input");
+            tsInput.type = "hidden";
+            tsInput.name = "Timestamp";
+            form.appendChild(tsInput);
+        }
+        tsInput.value = timestamp;
+    }
+
+    setSystemData();
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        setSystemData();
+
+        const fd = new FormData(form);
+
+        const data = {
+            Timestamp: fd.get("Timestamp"),
+            Page_Source: fd.get("page_source"),
+            Date: fd.get("date"),
+            Time: fd.get("time"),
+            Full_Name: fd.get("name"),
+            Username: fd.get("username"),
+            Email: fd.get("email"),
+            Phone_Number: fd.get("phone"),
+            School_Institute_Name: fd.get("school_name"),
+            City: fd.get("city"),
+            Subject: fd.get("subject"),
+            Company_Name: fd.get("company_name"),
+            Company_Website: fd.get("company_website"),
+            LinkedIn_Profile: fd.get("linkedin_profile"),
+            GitHub_Profile: fd.get("github_profile"),
+            Position_Hiring_For: fd.get("hiring_role"),
+            Employment_Type: fd.get("employment_type"),
+            Company_Size: fd.get("company_size"),
+            Interest: fd.get("interest"),
+            Rating: fd.get("rating"),
+            Message: fd.get("message")
+        };
+
+        fetch("https://sheetdb.io/api/v1/3j5wmhm6f1i2b", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ data: data })
+        })
+            .then(res => res.json())
+            .then(result => {
+                alert("✅ Form Submitted Successfully!");
+                form.reset();
+            })
+            .catch(err => {
+                alert("❌ Submission Failed!");
+                console.error(err);
+            });
+    });
+</script> -->
