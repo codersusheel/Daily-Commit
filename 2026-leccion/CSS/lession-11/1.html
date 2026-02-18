@@ -76,7 +76,7 @@
         </div> -->
 
         <!-- ================= HR / COMPANY INFO ================= -->
-            <!-- <input type="text" name="subject" placeholder="Subject">
+        <!-- <input type="text" name="subject" placeholder="Subject">
 
             <input type="text" name="company_name" placeholder="Company Name">
        
@@ -140,6 +140,8 @@
 
 
 
+
+
         <textarea name="Message" placeholder="Your Message"></textarea>
 
         <button type="submit">Submit</button>
@@ -177,9 +179,18 @@
             })
                 .then(res => res.json())
                 .then(() => {
-                    alert("✅ Form Submitted Successfully!");
+                  alert("✅ Form Submitted Successfully!\n📞 +91 9222704118");
+
+
+                    // ✅ Open WhatsApp
+                    // window.location.href = "https://wa.me/919222704118";
+
+                    // setTimeout(() => {
+                    //     window.location.href = "https://wa.me/919222704118";
+                    // }, 2500);
+
                     form.reset();
-                    submitBtn.disabled = false; // ✅ Enable again after success
+                    submitBtn.disabled = false;
                 })
                 .catch(err => {
                     alert("❌ Error submitting form");
