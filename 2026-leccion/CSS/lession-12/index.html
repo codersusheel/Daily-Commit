@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lession-12</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        main {
+            min-height: 90vh;
+        }
+
+        footer {
+            bottom: 0;
+
+        }
+
+        .card figcaption::after {
+            content: '✨';
+            display: block;
+        }
+
+        article {
+            padding: 10px;
+        }
+
+        figcaption {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+        .card {
+            text-align: center;
+            width: 250px;
+            height: auto;
+            max-width: 400px;
+
+            border: 2px solid black;
+            border-radius: 10px;
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 50%;
+            border: 5px double rgb(131, 131, 155);
+
+        }
+
+        figure {
+            padding: 10px 10px 5px 10px;
+        }
+
+        body {
+            max-width: 1200px;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>card page</h1>
+        <nav>
+            <a href="#card-1">card-1</a>
+            <a href="#card-2">card-2</a>
+            <a href="#card-3">card-3</a>
+
+        </nav>
+    </header>
+    <main>
+
+
+        <article id="card-1" class="card">
+            <figure>
+                <img src="/Assets/01.jpg" alt="card 1" width="300" height="auto">
+                <figcaption>
+                    <h3>Yashika Srivastava </h3>
+                </figcaption>
+            </figure>
+            <p><q>hii i,am developer</q></p>
+        </article>
+
+
+    </main>
+    <footer>
+        <p>&copy; card page </p>
+    </footer>
+</body>
+
+</html>
