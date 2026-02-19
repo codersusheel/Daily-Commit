@@ -19,114 +19,131 @@
         }
 
         body {
-            max-width: 100%;
-            min-height: 100vh;
-            background-color: aliceblue;
-            color: black;
-            opacity: 0.9;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #222;
         }
 
-        /* ====== header  ====== */
-        #header {
-            top: 0;
-            width: 100%;
-            background-color: black;
-            color: aliceblue;
-            padding: 10px 20px;
-
+        /* ===== HEADER ===== */
+        header {
             position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #000;
+            color: #fff;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 999;
+            z-index: 1000;
         }
 
-        #header a {
-            color: rgb(169, 177, 173);
-            text-decoration: dotted;
+        header a {
+            color: #fff;
+            text-decoration: none;
         }
 
-        #header nav a {
-            color: wheat;
-            text-decoration: dashed;
-            padding: 0 10px;
+        header nav a {
+            margin-left: 20px;
         }
 
-        #header a:hover {
-            color: aqua;
-            text-decoration: overline;
+        header nav a:hover {
+            color: #00bcd4;
         }
 
-
-        /* === footer === */
-        #footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgb(32, 31, 29);
-            color: aliceblue;
-            text-align: center;
-        }
-
-
-        /* === Dastop size ==== */
-        @media screen and (min-width:1000px) {
-
-            body {
-                font-size: 1.5rem;
-                background-color: white;
-            }
-
-            /* main {
-                background-image: url("/Assets/01.jpg");
-                background-repeat: no-repeat;
-                background-position: center;
-                background-size: cover;
-                background-attachment: fixed;
-            }
-
-            main::before {
-                content: "";
-                position: fixed;
-                inset: 0;
-                background: rgb(0, 0, 0);
-                z-index: -1;
-            } */
-
-
-        }
-
-        /* ===== min section ========= */
-        #main {
-            background-color: rgb(0, 0, 0);
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
+        /* ===== MAIN ===== */
+        main {
+            background-color: #fff;
         }
 
         #hero-section {
-            color: #ffffff;
+            position: relative;
+            /* IMPORTANT */
+            background-image: url("/CSS/Assets/01.jpg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            color: #fff;
+            z-index: 1;
         }
 
+        #hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgb(0, 0, 0);
+            z-index: -1;
+        }
+
+
+        /* ===== SECTIONS ===== */
         section {
-            color: rgb(0, 0, 0);
-            width: 1200px;
+            max-width: 1200px;
             margin: auto;
-            min-height: 100vh;
-            position: block;
-            position: sticky;
-            z-index: 0;
-            padding: 100px 0;
+            height: 100vh;
+            padding: 100px 20px;
+        }
+
+        #hero-section {
+            max-width: 100%;
+            color: #f5f5f5;
+        }
+
+        #about {
+            background: #ffffff;
+        }
+
+        #project {
+            background: #00000000;
+        }
+
+        #contact {
+            background: #ffffff;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: #222;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 768px) {
+
+            header {
+                flex-direction: column;
+            }
+
+            header nav {
+                margin-top: 10px;
+            }
+
+            header nav a {
+                margin: 0 10px 0 0;
+                display: inline-block;
+            }
+
+            section {
+                padding: 80px 15px;
+                min-height: auto;
+
+            }
         }
     </style>
+
 </head>
 
 <body>
     <header id="header">
         <h2><a href="/">page demo</a></h2>
-        <nav>
+        <nav id="nav">
             <a href="#">Home</a>
             <a href="#about">About</a>
             <a href="#project">Project</a>
@@ -135,8 +152,11 @@
     </header>
 
     <main id="main">
+
         <section id="hero-section">
-            <h2>hero-section</h2>
+            <section>
+                <h2>hero-section</h2>
+            </section>
         </section>
 
         <section id="about">
@@ -156,3 +176,6 @@
 </body>
 
 </html>
+
+
+
