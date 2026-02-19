@@ -60,7 +60,7 @@
     }
 
     /* //////////////////////////////// */
-    body {
+    /* body {
         display: grid;
         grid-template-columns: repeat(9, 1fr);
         grid-auto-rows: 75px auto 75px;
@@ -68,6 +68,21 @@
             "hd hd hd hd hd hd hd hd hd "
             "mn mn mn mn mn mn mn sb sb "
             "ft ft ft ft ft ft ft ft ft "
+        ;
+        gap: 1rem;
+        column-gap: 0.5rem;
+    } */
+
+
+
+    body {
+        display: grid;
+        grid-template-columns: repeat(9, 1fr);
+        grid-auto-rows: 75px auto 75px;
+        grid-template-areas:
+            "hd hd hd hd hd hd hd hd  hd hd "
+            "sbs sbs mn mn mn mn mn mn  sb sb "
+            "ft ft ft ft ft ft ft ft  ft ft "
         ;
         /* gap: 1rem; */
         column-gap: 0.5rem;
@@ -80,14 +95,21 @@
         place-content: center;
     }
 
-    .header{
+    .header {
         grid-area: hd;
     }
-    .sidebar{
+
+    .sidebar {
         grid-area: sb;
         background-color: blue;
     }
-    .footer{
+
+    .sidebars {
+        grid-area: sbs;
+        background-color: rgb(255, 213, 25);
+    }
+
+    .footer {
         grid-area: ft;
     }
 
@@ -100,6 +122,9 @@
     <header class="header el">
         <h1>header</h1>
     </header>
+    <aside class="sidebars el">
+        <h2>Aside</h2>
+    </aside>
     <main class="container">
         <div class="box">1</div>
         <div class="box">2</div>
@@ -107,6 +132,12 @@
         <div class="box">4</div>
         <div class="box">5</div>
         <div class="box">6</div>
+        <div class="box">6</div>
+        <div class="box">6</div>
+        <div class="box">6</div>
+        <div class="box">6</div>
+        <div class="box">6</div>
+
 
     </main>
     <aside class="sidebar el">
