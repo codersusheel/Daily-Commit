@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>it_Susheel_1</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .first{
+        background-color: blue;
+    }
+    .second{
+        background-color: #fff;
+    }
+    /* .forth{
+        background-color: rgb(27, 106, 98);
+    } */
+
+    #one {
+        color: antiquewhite;
+        color: black;
+    }
+
+    #two {
+        color: rgb(0, 255, 89);
+    }
+
+    #three {
+        color: rgb(255, 39, 208);
+    }
+    #forth{
+        color: rgb(0, 0, 0);
+    }
+
+
+    body {
+        max-width: 1000px;
+        margin: auto;
+    }
+
+    section {
+        height: 50vh;
+    }
+
+
+    header,
+    footer {
+        font-size: 3rem;
+        text-align: center;
+
+    }
+
+    header {
+        position: sticky;
+        top: 0;
+    }
+
+    footer {
+        background-color: bisque;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .social {
+        position: fixed;
+        font-size: inherit;
+        padding: 1rem;
+        top: 30%;
+        left: 0;
+        z-index: 1;
+
+    }
+
+    #one {
+        height: 40vh;
+
+    }
+
+    .hero {
+        color: black;
+    }
+
+    .hero :first-child {
+        padding: 40px 20px;
+    }
+
+    .hero p {
+        padding: 0px 65px;
+        color: blue;
+    }
+
+    .card {
+        background-color: antiquewhite;
+        text-align: center;
+        width: 100%;
+        margin: auto;
+        height: auto;
+        max-width: 400px;
+        border: 2px solid black;
+        border-radius: 10px;
+        display: flex;
+        color: black;
+    }
+
+    .card img {
+        height: 200px;
+        width: 100%;
+        border-radius: 50%;
+        border: 5px double rgb(131, 131, 155);
+    }
+
+    figure {
+        padding: 10px 10px 5px 10px;
+    }
+
+    .hero-R {
+        width: 100%;
+        display: grid;
+        align-content: center;
+        text-align: start;
+    }
+
+    .hero-R :first-child {
+        padding: 30px 0px;
+        font-size: 1.3rem;
+    }
+
+
+    /*  */
+    .image {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        background-image: url("/2.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        background-attachment: fixed;
+        color: #fff;
+        z-index: -1;
+    }
+
+    .hero-d::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.097);
+        z-index: -1;
+    }
+
+    #three p {
+        padding: 20px;
+        color: black;
+    }
+</style>
+
+
+<body>
+    <button class="social">🚀</button>
+    <section id="one">
+        <header class="first">Welcone 🖐️ </header>
+        <section class="hero">
+            <h1><q>hii i,am Susheel</q></h1>
+            <p> I don’t chase people, I chase clean code.
+                HTML se shuru, JavaScript pe khatam 🔥
+                Error aaye? Tension nahi... Google mera bestie hai 😌
+            </p>
+
+            <!-- <article id="card-1" class="card">
+                <figure>
+                    <img src="/2026-leccion/CSS/Assets/01.jpg" alt="card 1" width="300" height="auto">
+                    <figcaption>
+                        <h3>susheel </h3>
+                    </figcaption>
+                </figure>
+                <div class="hero-R">
+                    <p><q>hii i,am developer</q></p>
+
+                </div>
+            </article> -->
+        </section>
+    </section>
+    <section id="two">
+        <header class="second">image </header>
+        <div class="image"></div>
+    </section>
+    <section id="three">
+        <header class="blue">About Me</header>
+        <!-- <h2> About Me</h2> -->
+        <p>
+            मैं एक curious इंसान हूँ जिसे नई चीज़ें सीखना, बनाना और explore करना पसंद है। टेक्नोलॉजी हो, क्रिएटिव
+            आइडियाज़ हों या ज़िंदगी को आसान बनाने वाले छोटे-छोटे सॉल्यूशंस — मुझे हर उस चीज़ में दिलचस्पी है जिसमें कुछ
+            नया करने का मौका मिले।
+            मैं simple सोच रखता हूँ, लेकिन goals बड़े हैं। गाँव की मिट्टी से जुड़ा हूँ, इसलिए ज़मीन से जुड़े रहकर आगे
+            बढ़ने में विश्वास करता हूँ। कभी कोड में खोया रहता हूँ, कभी बैडमिंटन खेलते हुए पसीना बहाता हूँ, और कभी रंगों
+            के साथ painting में सुकून ढूँढता हूँ।
+            मेरे लिए growth का मतलब सिर्फ़ आगे बढ़ना नहीं, बल्कि दूसरों के लिए भी कुछ meaningful करना है। सीखते रहना,
+            बेहतर बनते रहना और अपने तरीके से पहचान बनाना — यही मेरी कहानी है।
+        </p>
+    </section>
+
+    <section id="forth">
+        <header class="forth">About Me</header>
+        <h2> forth</h2>
+
+    </section>
+    <footer>
+        <a href="#one">one</a>
+        <a href="#two">two</a>
+        <a href="#three">three</a>
+    </footer>
+</body>
+
+</html>
+
