@@ -1,0 +1,58 @@
+/* ============================================ */
+
+/*  */
+:root {
+
+    /* font */
+    --side: 1.2rem;
+
+    /* color */
+    --BG: rgb(255, 251, 251);
+    --Text-c: rgb(198, 6, 137);
+    --Color: black;
+
+    /* general */
+    --padding: 2px;
+    --Shadows: 0 6px 7px 2px var(--Color);
+
+
+}
+
+/* .box {
+    background-color: var(--Text-c);
+    height: 50PX;
+    box-shadow: var(--Shadows);
+} */
+
+
+
+.box {
+    margin: 20px;
+    width: 100%;
+    /* height: 200px; */
+}
+
+.left,
+.right {
+    height: 200px;
+}
+
+.box {
+    background-color: blueviolet;
+    display: flex;
+}
+
+
+.right {
+    flex: 5;
+    background-color: rgb(117, 60, 60);
+    /* width: 300px; */
+    /* height: 300px; */
+}
+
+.left {
+    flex: 5;
+    background-color: rgb(4, 0, 255);
+    width: 200px;
+    height: 500px;
+}
