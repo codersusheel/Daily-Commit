@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <style>
+        * {   
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: beige;
+            color: black;
+            text-align: center;
+        }
+
+        header {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            background-color: blue;
+            z-index: 2;
+        }
+
+        @media (min-width:1200px) {
+            aside {
+                position: fixed;
+                top: 0;
+                bottom: 0px;
+                left: 0;
+                width: 170px;
+                height: 100vh;
+                background-color: blueviolet;
+                z-index: 1;
+                padding-top: 85px;
+            }
+
+            .header {
+                padding: 0 30px;
+            }
+
+            .main {
+                /* padding: 0 180px; */
+                padding: 55px 30px 10px 190px;
+            }
+        }
+
+        @media (max-width:1200px) {
+            aside {
+                display: none;
+            }
+        }
+
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: chocolate;
+            z-index: -1;
+        }
+
+        /* =========== */
+
+        header,
+        main {
+            padding: 0 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav li {
+            text-decoration: none;
+            list-style-type: none;
+            color: rgb(0, 255, 174);
+
+        }
+
+
+        /* main */
+
+        main {
+            text-align: start;
+            z-index: -2;
+            position: sticky;
+            padding: 55px 20px 0px 20px;
+
+        }
+
+        .article {
+            height: 100vh;
+            border: 2px solid rgb(255, 0, 0);
+
+        }
+
+        .section {
+            color: blueviolet;
+            border: 2px solid rgb(0, 0, 0);
+            width: 30%;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h2>header</h2>
+        <nav>
+            <li>a</li>
+            <li>b</li>
+            <li>c</li>
+            <li>d</li>
+            <li>e</li>
+        </nav>
+    </header>
+    <aside>
+        <h2>aside</h2>
+        <h2>aside</h2>
+        <h2>aside</h2>
+        <h2>aside</h2>
+    </aside>
+    <main class="main">
+        <article class="article hero">
+
+        </article>
+        <section class="section">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel, vero.
+            Minus accusamus error in necessitatibus debitis ratione culpa consequuntur corrupti.
+            Sunt reiciendis eos nobis voluptate commodi, rem quae voluptatum adipisci!
+            Porro non earum reiciendis sapiente eaque rem, cum excepturi minus?
+            Quod dolor odio unde. Mollitia minus nesciunt fugit explicabo ad.
+            Nobis repudiandae, ex natus ipsam mollitia delectus nihil tenetur error.
+            Facere nostrum eius facilis minima autem et quae dolore ipsam?
+            Nobis in, modi quisquam harum error mollitia odio vero fugiat!
+            Qui repellendus facilis ab unde consectetur ex tempora veritatis sunt?
+            Delectus dolorum aperiam sunt, veniam laboriosam mollitia laudantium accusamus commodi!
+            Perspiciatis corporis at rem eius, praesentium aliquid veritatis animi. Sequi?
+            Ipsa soluta fugiat ab quae dolores impedit inventore quibusdam voluptas.
+            Earum quod consectetur reprehenderit minima tenetur id? Recusandae, accusantium possimus?
+            Magnam, neque. Est, atque rerum? Accusantium debitis eveniet enim ipsum!
+            Deserunt amet porro recusandae mollitia perspiciatis soluta nesciunt dolorum placeat?
+            Vel ea, nisi itaque nam praesentium odit cupiditate ratione expedita!
+            Sit mollitia fuga asperiores nostrum vel tempore doloribus quia rem?
+            Perspiciatis est vel alias fuga repellat quod consectetur, eius aperiam.
+            Est libero saepe sed nesciunt quisquam perspiciatis tempore voluptatibus alias.
+            Explicabo dolorem reiciendis ullam laborum porro? Iure, repellat reiciendis. Ipsa!
+        </section>
+
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+        <h2>main</h2>
+    </main>
+
+    <footer>
+        <h2>footer</h2>
+    </footer>
+
+</body>
+
+</html>
