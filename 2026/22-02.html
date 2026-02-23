@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hover Profile Card</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#667eea,#764ba2);
+}
+
+/* CARD */
+.card{
+  width:300px;
+  height:380px;
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 15px 40px rgba(0,0,0,0.3);
+  cursor:pointer;
+}
+
+/* IMAGE */
+.card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* OVERLAY */
+.overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to top,
+    rgba(0,0,0,0.9),
+    rgba(0,0,0,0.2)
+  );
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:20px;
+  color:#fff;
+  transform:translateY(65%);
+  transition:0.5s ease;
+}
+
+/* HOVER EFFECT */
+.card:hover .overlay{
+  transform:translateY(0);
+}
+
+/* TEXT */
+.overlay h2{
+  font-size:22px;
+  margin-bottom:5px;
+}
+
+.overlay .passion{
+  font-size:14px;
+  opacity:0.85;
+  margin-bottom:10px;
+}
+
+.overlay .about{
+  font-size:13px;
+  line-height:1.5;
+  opacity:0;
+  transform:translateY(15px);
+  transition:0.4s ease 0.2s;
+}
+
+/* SHOW ABOUT ON HOVER */
+.card:hover .about{
+  opacity:1;
+  transform:translateY(0);
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12" alt="Profile">
+
+  <div class="overlay">
+    <h2>Susheel Kumar</h2>
+    <p class="passion">Web Developer • UI Designer</p>
+    <p class="about">
+      I love building clean, modern websites and creative digital experiences using HTML, CSS, and JavaScript.
+    </p>
+  </div>
+</div>
+
+</body>
+</html>
