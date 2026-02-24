@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: rgb(255, 255, 255);
+            width: 100%;
+            border: 9px solid rgb(255, 0, 0);
+            color: black;
+            text-align: center;
+            margin: auto;
+        }
+
+        header {
+            background-color: rgb(254, 254, 254);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            border: 2px solid rgb(255, 109, 109);
+        }
+
+        @media(min-width:1400px) {
+            .aside {
+                background-color: black;
+                position: fixed;
+                width: 200px;
+                height: 94%;
+                left: 0;
+                bottom: 0;
+            }
+        }
+
+        footer {
+            background-color: aliceblue;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            border: 2px solid rgb(255, 109, 109);
+            height: 60px;
+        }
+
+        .main {
+            background-color: yellow;
+            /* position: fixed; */
+           margin-top: 90px;
+            /* max-width: 1200px; */
+            /* margin: auto; */
+            /* margin: 30px; */
+            /* z-index: -1; */
+        }
+
+        /* .article {
+            background-color: aqua;
+            border: 2px solid rgb(0, 0, 0);
+            width: 100%;
+
+        } */
+
+        .section {
+            max-width: 1000px;
+            margin: auto;
+            border: 2px solid black;
+            padding: 40px;
+            background-color: blue;
+        }
+
+        .box {
+            background-color: aquamarine;
+            border: 2px solid rgb(202, 108, 108);
+            padding: 0 10px;
+            height: 200px;
+        }
+        /* 
+
+        .left {
+            background-color: chartreuse;
+            border: 2px solid;
+            padding: 40px;
+            height: auto;
+            width: 100%;
+        } */
+
+        /* .right {
+            background-color: pink;
+            border: 2px solid;
+            padding: 40px;
+            width: 100%;
+        } */
+
+        /* .up {
+            background-color: rgb(235, 255, 214);
+            border: 2px solid;
+            height: 50%;
+            width: 100%;
+        } */
+        /* 
+        .down {
+            background-color: rgb(172, 172, 255);
+            border: 2px solid;
+            height: 50%;
+            width: 100%;
+        } */
+        /* 
+        .hero {
+            max-width: 1500px;
+            margin: auto;
+            display: flex;
+        } */
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>header</h1>
+    </header>
+    <aside class="aside">
+
+    </aside>
+    <main class="main">
+        <article class="article">
+            <div class="box hero">
+                <div class="left">
+                    <h2>hero section Left</h2>
+                </div>
+                <div class="right">
+                    <h2>hero section right</h2>
+                </div>
+            </div>
+        </article>
+        <section class="section" id="one">
+            <div class="box hero">
+                <div class="left">
+                    <h2>left</h2>
+                </div>
+                <div class="right">
+                    <h2>right</h2>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="one">
+            <div class="box ">
+                <div class="up">
+                    <h2>Up</h2>
+                </div>
+                <div class="down">
+                    <h2>Dowon </h2>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="one">
+            <div class="box">
+                <div class="left"></div>
+                <div class="right"></div>
+            </div>
+        </section>
+        <article>
+            <div class="box hero">
+                <div class="left"> </div>
+                <div class="right"></div>
+            </div>
+        </article>
+        <section class="section" id="one">
+            <div class="box">
+                <div class="left"></div>
+                <div class="right"></div>
+            </div>
+        </section>
+        <section class="section" id="one">
+            <div class="box">
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <h2>Footer</h2>
+    </footer>
+
+</body>
+
+</html>
