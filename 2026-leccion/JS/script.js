@@ -70,7 +70,7 @@ this
 
 */
 
-// ----- Arrays
+// ----- Arrays --------------indexOf ---isArray-----
 
 // const num = new Array(1,2,3,4,5);
 // alert(num) ;
@@ -79,9 +79,82 @@ this
 // const fruits =['apple','orange','banna',10,true ];
 // alert(fruits);
 
+// fruits[3] ='graps';
+// fruits.push('mango');
+//  alert(fruits[0]);
+//  alert(fruits[1]);      
+//  alert(fruits[3]);
+//  alert(fruits.indexOf('banna'));
+//  alert(Array.isArray('apple'));
+
+
+// ----------
+// const person = {
+//     firstName: 'susheel',
+//     lestName: 'Pandit',
+//     middName: 'kumar',
+//     age: 21,
+//     hobbies:[ 'baidmintan', 'moves', 'no' ]
+//    address: {
+//         city:'noida',
+//         start:'india',
+//         pincode:'201301'
+//       }
+// }
+
+// alert(person.hobbies);
+// console.log(person);
 
 
 
 
+// const todos =[
+//     {
+//         id:1,
+//         Text : 'Take out trash',
+//         iscompleted:true
+//     },
+//     {
+//         id:2,
+//         Text : 'Metting with boss',
+//         iscompleted:true
+//     },
+//     {
+//         id:3,
+//         Text : 'Dentist appt',
+//         iscompleted:false
+//     }
+// ];
+// console.log(todos);
+// console.log(todos[1].Text);
 
 
+
+
+// --------------------
+
+// for loop
+
+// const num =3;
+// for(let i = 0; i <=num; i++ ){
+//     // console.log(`for loop number:${i}`);
+//     // alert(`for loop number:${i}`);
+// }
+
+
+// while loop
+
+// let i = 0;
+// while (i > 10){
+//     console.log(`while loop number:${i}`);
+//     i++;
+// }
+
+
+
+// dengar hai ye wala 
+// let i = 0;
+// while (i > -10){
+//     console.log(`while loop number:${i}`);
+//     i++;
+// }
