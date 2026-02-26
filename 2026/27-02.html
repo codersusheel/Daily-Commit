@@ -8,6 +8,54 @@ if(isset($_POST['generate_bulk'])) {
 }
 ?>
 
+<?php
+if(isset($_POST['generate_bulk'])) {
+    $names = $_POST['names'];
+    $course = $_POST['course_name'];
+    $date_time = date('d-m-Y H:i:s');
+
+    // --- 1. सर्टिफिकेट वाली ZIP बनाना ---
+    $zipCert = new ZipArchive();
+    $zipCertName = "all_certificates_" . time() . ".zip";
+    $zipCert->open($zipCertName, ZipArchive::CREATE);
+
+    // --- 2. लिस्ट वाली CSV फाइल बनाना ---
+    $csvFileName = "student_list_" . time() . ".csv";
+    $csvFile = fopen($csvFileName, 'w');
+    fputcsv($csvFile, ['Name', 'Course', 'Date & Time']); // Header
+
+    foreach($names as $name) {
+        if(!empty($name)) {
+            // यहाँ आप सर्टिफिकेट इमेज/PDF बनायेंगे (Abhi dummy file le rahe hain)
+            $certContent = "Certificate for $name in $course"; 
+            $fileName = "Cert_" . str_replace(' ', '_', $name) . ".txt"; 
+            
+            // ZIP में सर्टिफिकेट जोड़ना
+            $zipCert->addFromString($fileName, $certContent);
+            
+            // CSV लिस्ट में डेटा जोड़ना
+            fputcsv($csvFile, [$name, $course, $date_time]);
+        }
+    }
+
+    $zipCert->close();
+    fclose($csvFile);
+
+    // --- 3. लिस्ट वाली दूसरी ZIP बनाना ---
+    $zipListName = "record_list_" . time() . ".zip";
+    $zipList = new ZipArchive();
+    $zipList->open($zipListName, ZipArchive::CREATE);
+    $zipList->addFile($csvFileName);
+    $zipList->close();
+
+    echo "<h3>Success!</h3>";
+    echo "<a href='$zipCertName' class='btn btn-gen'>Download Certificates (ZIP 1)</a><br><br>";
+    echo "<a href='$zipListName' class='btn btn-add'>Download Record List (ZIP 2)</a>";
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
