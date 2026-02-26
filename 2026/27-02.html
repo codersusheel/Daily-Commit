@@ -1,0 +1,152 @@
+<?php
+// PHP logic: Jab multiple certificates generate honge
+if(isset($_POST['generate_bulk'])) {
+    $names = $_POST['names'];
+    $course = $_POST['course_name'];
+    // Yahan loop chalakar PDF generate karne ka logic aayega
+    // Abhi hum sirf screen par results dikhayenge
+}
+?>
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Susheelcoder - Advance Certificate Maker</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f3; margin: 0; display: flex; flex-direction: column; align-items: center; }
+        .header { background: #1a237e; color: white; width: 100%; padding: 15px; text-align: center; margin-bottom: 20px; }
+        .main-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; width: 95%; }
+        
+        /* Sidebar Editor */
+        .editor-panel { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 350px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
+        input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .btn { cursor: pointer; border: none; border-radius: 4px; padding: 10px; font-weight: bold; width: 100%; margin-top: 10px; }
+        .btn-add { background: #4CAF50; color: white; }
+        .btn-gen { background: #1a237e; color: white; margin-top: 20px; }
+        
+        /* Certificate Preview */
+        .preview-panel { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+        #certificate-area { 
+            width: 700px; height: 500px; background: #fff; border: 20px solid #1a237e; 
+            position: relative; overflow: hidden; margin: 0 auto;
+            background-image: url('https://www.transparenttextures.com/patterns/paper.png');
+        }
+        .draggable { position: absolute; cursor: move; padding: 5px; user-select: none; }
+        .cert-title { font-size: 50px; color: #c5a059; font-family: 'Georgia', serif; }
+        #prevName { font-size: 35px; font-weight: bold; color: #333; border-bottom: 2px solid #333; }
+        #prevCourse { font-size: 22px; color: #555; }
+        .qr-box { bottom: 20px; right: 20px; width: 80px; height: 80px; border: 1px solid #000; display: flex; align-items: center; justify-content: center; font-size: 10px; background: #fff; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h2>Susheelcoder Digital Certificate Studio</h2>
+</div>
+
+<div class="main-container">
+    <div class="editor-panel">
+        <form method="POST">
+            <div class="input-group">
+                <label>Course Name:</label>
+                <input type="text" id="courseInp" name="course_name" placeholder="E.g. Full Stack Web Development" oninput="syncData()">
+            </div>
+
+            <label>Student Names:</label>
+            <div id="namesList">
+                <div style="display:flex; margin-bottom:5px;">
+                    <input type="text" name="names[]" class="name-input" placeholder="Enter Name" oninput="syncData()">
+                </div>
+            </div>
+            <button type="button" class="btn btn-add" onclick="addNameField()">+ Add Another Student</button>
+            
+            <hr>
+            <p style="font-size: 12px; color: #666;">Tip: You can drag the Name and Logo in the preview!</p>
+            <button type="submit" name="generate_bulk" class="btn btn-gen">Download All Certificates</button>
+        </form>
+    </div>
+
+    <div class="preview-panel">
+        <h3>Live Design Preview</h3>
+        <div id="certificate-area">
+            <div class="draggable" style="top: 40px; left: 180px;">
+                <h1 class="cert-title">CERTIFICATE</h1>
+            </div>
+
+            <div id="dragName" class="draggable" style="top: 200px; left: 200px;">
+                <div id="prevName">STUDENT NAME</div>
+            </div>
+
+            <div id="dragCourse" class="draggable" style="top: 320px; left: 200px;">
+                <span>Completed the course in: </span><br>
+                <b id="prevCourse">COURSE NAME</b>
+            </div>
+
+            <div class="draggable qr-box" style="bottom: 40px; right: 40px;">
+                QR CODE<br>VERIFY
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. Dynamic Fields Logic
+    function addNameField() {
+        const div = document.createElement('div');
+        div.style.display = "flex";
+        div.style.marginBottom = "5px";
+        div.innerHTML = `<input type="text" name="names[]" class="name-input" placeholder="Enter Name" oninput="syncData()"> 
+                         <button type="button" onclick="this.parentElement.remove(); syncData();" style="background:red; color:white; border:none; margin-left:5px; cursor:pointer;">X</button>`;
+        document.getElementById('namesList').appendChild(div);
+    }
+
+    // 2. Sync Input to Preview
+    function syncData() {
+        const firstBatchName = document.querySelector('.name-input').value;
+        const courseName = document.getElementById('courseInp').value;
+        
+        document.getElementById('prevName').innerText = firstBatchName || "STUDENT NAME";
+        document.getElementById('prevCourse').innerText = courseName || "COURSE NAME";
+    }
+
+    // 3. Drag and Drop Logic
+    function initDrag(el) {
+        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        el.onmousedown = dragMouseDown;
+
+        function dragMouseDown(e) {
+            e.preventDefault();
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e.preventDefault();
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            el.style.top = (el.offsetTop - pos2) + "px";
+            el.style.left = (el.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
+
+    // Sabhi draggable elements ko activate karein
+    document.querySelectorAll('.draggable').forEach(item => {
+        initDrag(item);
+    });
+</script>
+
+</body>
+</html>
