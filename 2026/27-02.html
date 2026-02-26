@@ -1,198 +1,179 @@
 <?php
-// PHP logic: Jab multiple certificates generate honge
-if(isset($_POST['generate_bulk'])) {
+// 1. PHP LOGIC: ZIP FILES GENERATION
+if (isset($_POST['generate_all'])) {
     $names = $_POST['names'];
     $course = $_POST['course_name'];
-    // Yahan loop chalakar PDF generate karne ka logic aayega
-    // Abhi hum sirf screen par results dikhayenge
-}
-?>
+    $timestamp = time();
+    $date_time = date('Y-m-d H:i:s');
 
-<?php
-if(isset($_POST['generate_bulk'])) {
-    $names = $_POST['names'];
-    $course = $_POST['course_name'];
-    $date_time = date('d-m-Y H:i:s');
+    // ZIP 1: Certificates के लिए
+    $certZipName = "certificates_pack_$timestamp.zip";
+    $certZip = new ZipArchive();
+    $certZip->open($certZipName, ZipArchive::CREATE);
 
-    // --- 1. सर्टिफिकेट वाली ZIP बनाना ---
-    $zipCert = new ZipArchive();
-    $zipCertName = "all_certificates_" . time() . ".zip";
-    $zipCert->open($zipCertName, ZipArchive::CREATE);
-
-    // --- 2. लिस्ट वाली CSV फाइल बनाना ---
-    $csvFileName = "student_list_" . time() . ".csv";
+    // ZIP 2: Excel/List के लिए
+    $listZipName = "records_pack_$timestamp.zip";
+    $csvFileName = "data_list_$timestamp.csv";
     $csvFile = fopen($csvFileName, 'w');
-    fputcsv($csvFile, ['Name', 'Course', 'Date & Time']); // Header
+    fputcsv($csvFile, ['Certificate ID', 'Student Name', 'Course', 'Issued Date']);
 
-    foreach($names as $name) {
-        if(!empty($name)) {
-            // यहाँ आप सर्टिफिकेट इमेज/PDF बनायेंगे (Abhi dummy file le rahe hain)
-            $certContent = "Certificate for $name in $course"; 
-            $fileName = "Cert_" . str_replace(' ', '_', $name) . ".txt"; 
+    $count = 1;
+    foreach ($names as $name) {
+        if (!empty(trim($name))) {
+            $certID = "SC-" . strtoupper(substr($course, 0, 2)) . "-" . (1000 + $count);
             
-            // ZIP में सर्टिफिकेट जोड़ना
-            $zipCert->addFromString($fileName, $certContent);
-            
-            // CSV लिस्ट में डेटा जोड़ना
-            fputcsv($csvFile, [$name, $course, $date_time]);
+            // सर्टिफिकेट फाइल बनाना (Abhi Demo Text File)
+            $certContent = "CERTIFICATE OF COMPLETION\n\nID: $certID\nName: $name\nCourse: $course\nDate: $date_time";
+            $certZip->addFromString("Certificate_$name.txt", $certContent);
+
+            // लिस्ट में डेटा जोड़ना
+            fputcsv($csvFile, [$certID, $name, $course, $date_time]);
+            $count++;
         }
     }
 
-    $zipCert->close();
+    $certZip->close();
     fclose($csvFile);
 
-    // --- 3. लिस्ट वाली दूसरी ZIP बनाना ---
-    $zipListName = "record_list_" . time() . ".zip";
-    $zipList = new ZipArchive();
-    $zipList->open($zipListName, ZipArchive::CREATE);
-    $zipList->addFile($csvFileName);
-    $zipList->close();
+    // List वाली ZIP बनाना
+    $listZip = new ZipArchive();
+    $listZip->open($listZipName, ZipArchive::CREATE);
+    $listZip->addFile($csvFileName);
+    $listZip->close();
+    unlink($csvFileName); // CSV को अकेला न छोड़ें, डिलीट कर दें
 
-    echo "<h3>Success!</h3>";
-    echo "<a href='$zipCertName' class='btn btn-gen'>Download Certificates (ZIP 1)</a><br><br>";
-    echo "<a href='$zipListName' class='btn btn-add'>Download Record List (ZIP 2)</a>";
+    $success = true;
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Susheelcoder - Advance Certificate Maker</title>
+    <title>Susheelcoder - Bulk Certificate & Record Manager</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f3; margin: 0; display: flex; flex-direction: column; align-items: center; }
-        .header { background: #1a237e; color: white; width: 100%; padding: 15px; text-align: center; margin-bottom: 20px; }
-        .main-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; width: 95%; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; }
+        .navbar { background: #1a237e; color: white; padding: 15px; text-align: center; }
+        .container { display: flex; flex-wrap: wrap; padding: 20px; gap: 20px; justify-content: center; }
         
-        /* Sidebar Editor */
-        .editor-panel { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 350px; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
-        input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        .btn { cursor: pointer; border: none; border-radius: 4px; padding: 10px; font-weight: bold; width: 100%; margin-top: 10px; }
-        .btn-add { background: #4CAF50; color: white; }
-        .btn-gen { background: #1a237e; color: white; margin-top: 20px; }
+        /* Editor Panel */
+        .editor { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 380px; }
+        .input-box { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        .btn { padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px; }
+        .btn-add { background: #e8f5e9; color: #2e7d32; border: 1px dashed #2e7d32; }
+        .btn-main { background: #1a237e; color: white; font-size: 16px; }
         
-        /* Certificate Preview */
-        .preview-panel { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
-        #certificate-area { 
-            width: 700px; height: 500px; background: #fff; border: 20px solid #1a237e; 
-            position: relative; overflow: hidden; margin: 0 auto;
-            background-image: url('https://www.transparenttextures.com/patterns/paper.png');
+        /* Preview Panel */
+        .preview { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        #cert-frame { 
+            width: 600px; height: 420px; border: 15px solid #1a237e; position: relative; 
+            background: #fff; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.05);
         }
-        .draggable { position: absolute; cursor: move; padding: 5px; user-select: none; }
-        .cert-title { font-size: 50px; color: #c5a059; font-family: 'Georgia', serif; }
-        #prevName { font-size: 35px; font-weight: bold; color: #333; border-bottom: 2px solid #333; }
-        #prevCourse { font-size: 22px; color: #555; }
-        .qr-box { bottom: 20px; right: 20px; width: 80px; height: 80px; border: 1px solid #000; display: flex; align-items: center; justify-content: center; font-size: 10px; background: #fff; }
+        .draggable { position: absolute; cursor: move; padding: 5px; }
+        .cert-name { font-size: 28px; font-weight: bold; color: #333; border-bottom: 2px solid #1a237e; }
+        
+        /* Download Section */
+        .success-box { background: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; width: 90%; max-width: 800px; margin: 20px auto; }
+        .dl-link { display: inline-block; margin: 10px; padding: 10px 20px; background: #2e7d32; color: white; text-decoration: none; border-radius: 5px; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h2>Susheelcoder Digital Certificate Studio</h2>
+<div class="navbar">
+    <h2>Susheelcoder Certificate Studio</h2>
 </div>
 
-<div class="main-container">
-    <div class="editor-panel">
-        <form method="POST">
-            <div class="input-group">
-                <label>Course Name:</label>
-                <input type="text" id="courseInp" name="course_name" placeholder="E.g. Full Stack Web Development" oninput="syncData()">
-            </div>
+<?php if (isset($success)): ?>
+<div class="success-box">
+    <strong>Success!</strong> सर्टिफिकेट और लिस्ट जेनेरेट हो गई हैं।
+    <br>
+    <a href="<?= $certZipName ?>" class="dl-link">📁 Download Certificates (ZIP)</a>
+    <a href="<?= $listZipName ?>" class="dl-link" style="background:#0277bd">📊 Download Records (ZIP)</a>
+</div>
+<?php endif; ?>
 
-            <label>Student Names:</label>
-            <div id="namesList">
-                <div style="display:flex; margin-bottom:5px;">
-                    <input type="text" name="names[]" class="name-input" placeholder="Enter Name" oninput="syncData()">
+<div class="container">
+    <div class="editor">
+        <form method="POST">
+            <label>Course Name:</label>
+            <input type="text" name="course_name" id="courseInp" class="input-box" placeholder="Ex: Python Programming" oninput="updatePreview()">
+            
+            <label>Students Names:</label>
+            <div id="student-list">
+                <div style="display:flex; gap:5px;">
+                    <input type="text" name="names[]" class="input-box name-field" placeholder="Student Name" oninput="updatePreview()">
                 </div>
             </div>
-            <button type="button" class="btn btn-add" onclick="addNameField()">+ Add Another Student</button>
             
-            <hr>
-            <p style="font-size: 12px; color: #666;">Tip: You can drag the Name and Logo in the preview!</p>
-            <button type="submit" name="generate_bulk" class="btn btn-gen">Download All Certificates</button>
+            <button type="button" class="btn btn-add" onclick="addNewField()">+ Add More Student</button>
+            <button type="submit" name="generate_all" class="btn btn-main">Generate & Pack Everything</button>
         </form>
     </div>
 
-    <div class="preview-panel">
-        <h3>Live Design Preview</h3>
-        <div id="certificate-area">
-            <div class="draggable" style="top: 40px; left: 180px;">
-                <h1 class="cert-title">CERTIFICATE</h1>
+    <div class="preview">
+        <h3>Live Layout Editor</h3>
+        <div id="cert-frame">
+            <div class="draggable" style="top:30px; left:200px; color:#c5a059"><h2>CERTIFICATE</h2></div>
+            
+            <div class="draggable" id="dragName" style="top:180px; left:180px;">
+                <div class="cert-name" id="prevName">STUDENT NAME</div>
             </div>
 
-            <div id="dragName" class="draggable" style="top: 200px; left: 200px;">
-                <div id="prevName">STUDENT NAME</div>
-            </div>
-
-            <div id="dragCourse" class="draggable" style="top: 320px; left: 200px;">
-                <span>Completed the course in: </span><br>
+            <div class="draggable" id="dragCourse" style="top:280px; left:180px;">
+                <span>Successfully Completed:</span><br>
                 <b id="prevCourse">COURSE NAME</b>
             </div>
 
-            <div class="draggable qr-box" style="bottom: 40px; right: 40px;">
-                QR CODE<br>VERIFY
+            <div class="draggable" style="bottom:30px; right:30px; border:1px solid #000; padding:10px; font-size:10px;">
+                QR CODE<br>VERIFIED
             </div>
         </div>
+        <p><small>Tip: आप नाम और कोर्स को माउस से हिला सकते हैं!</small></p>
     </div>
 </div>
 
 <script>
-    // 1. Dynamic Fields Logic
-    function addNameField() {
+    // 1. नए नाम जोड़ने का फंक्शन
+    function addNewField() {
         const div = document.createElement('div');
         div.style.display = "flex";
-        div.style.marginBottom = "5px";
-        div.innerHTML = `<input type="text" name="names[]" class="name-input" placeholder="Enter Name" oninput="syncData()"> 
-                         <button type="button" onclick="this.parentElement.remove(); syncData();" style="background:red; color:white; border:none; margin-left:5px; cursor:pointer;">X</button>`;
-        document.getElementById('namesList').appendChild(div);
+        div.style.gap = "5px";
+        div.innerHTML = `<input type="text" name="names[]" class="input-box name-field" placeholder="Student Name" oninput="updatePreview()">
+                         <button type="button" onclick="this.parentElement.remove();updatePreview();" style="border:none; color:red; cursor:pointer; background:none;">X</button>`;
+        document.getElementById('student-list').appendChild(div);
     }
 
-    // 2. Sync Input to Preview
-    function syncData() {
-        const firstBatchName = document.querySelector('.name-input').value;
+    // 2. लाइव अपडेट प्रीव्यू
+    function updatePreview() {
+        const firstBatchName = document.querySelector('.name-field').value;
         const courseName = document.getElementById('courseInp').value;
-        
         document.getElementById('prevName').innerText = firstBatchName || "STUDENT NAME";
         document.getElementById('prevCourse').innerText = courseName || "COURSE NAME";
     }
 
-    // 3. Drag and Drop Logic
-    function initDrag(el) {
-        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        el.onmousedown = dragMouseDown;
+    // 3. ड्रैग एंड ड्रॉप लॉजिक
+    document.querySelectorAll('.draggable').forEach(el => {
+        let isDragging = false;
+        el.onmousedown = (e) => {
+            isDragging = true;
+            let shiftX = e.clientX - el.getBoundingClientRect().left;
+            let shiftY = e.clientY - el.getBoundingClientRect().top;
 
-        function dragMouseDown(e) {
-            e.preventDefault();
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            document.onmouseup = closeDragElement;
-            document.onmousemove = elementDrag;
-        }
+            document.onmousemove = (e) => {
+                if (!isDragging) return;
+                let rect = document.getElementById('cert-frame').getBoundingClientRect();
+                let x = e.clientX - rect.left - shiftX;
+                let y = e.clientY - rect.top - shiftY;
+                el.style.left = x + 'px';
+                el.style.top = y + 'px';
+            };
 
-        function elementDrag(e) {
-            e.preventDefault();
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            el.style.top = (el.offsetTop - pos2) + "px";
-            el.style.left = (el.offsetLeft - pos1) + "px";
-        }
-
-        function closeDragElement() {
-            document.onmouseup = null;
-            document.onmousemove = null;
-        }
-    }
-
-    // Sabhi draggable elements ko activate karein
-    document.querySelectorAll('.draggable').forEach(item => {
-        initDrag(item);
+            document.onmouseup = () => {
+                isDragging = false;
+                document.onmousemove = null;
+            };
+        };
+        el.ondragstart = () => false;
     });
 </script>
 
