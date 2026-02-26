@@ -158,3 +158,25 @@ this
 //     console.log(`while loop number:${i}`);
 //     i++;
 // }
+
+
+
+// ===================
+
+// const x = 22;
+
+// if(x === 10){
+//     console.log('x is 10');
+// } else if(x > 10) {
+//     console.log('x is greater then 10');
+
+// } else{
+//     console.log('x is less then 10');
+
+// }
+
+
+// collor =========================
+
+
+  
