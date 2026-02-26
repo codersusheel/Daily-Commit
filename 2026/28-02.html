@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Susheelcoder – JS Bulk Certificate Generator</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<style>
+body{
+    font-family: "Segoe UI", sans-serif;
+    background: linear-gradient(135deg,#e3f2fd,#fdfefe);
+    margin:0;
+    padding:20px;
+    text-align:center;
+}
+
+h2{
+    color:#1a237e;
+    margin-bottom:20px;
+}
+
+.main-wrapper{
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+    justify-content:center;
+}
+
+/* Editor */
+.editor{
+    width:360px;
+    background:#fff;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+    text-align:left;
+}
+
+label{
+    font-weight:600;
+}
+
+input, textarea{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+    box-sizing:border-box;
+}
+
+textarea{
+    resize:none;
+    height:70px;
+}
+
+.btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.btn-add{
+    background:#e3f2fd;
+    color:#1a237e;
+    border:1px solid #1a237e;
+}
+
+.btn-gen{
+    background:#1a237e;
+    color:#fff;
+}
+
+/* Preview */
+.preview{
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+
+#certificate-canvas{
+    width:700px;
+    height:450px;
+    background:linear-gradient(#ffffff,#f8f9ff);
+    position:relative;
+    margin:auto;
+    padding:18px;
+}
+
+/* Outer border */
+.cert-outer{
+    width:100%;
+    height:100%;
+    border:6px solid #1a237e;
+    padding:15px;
+    box-sizing:border-box;
+}
+
+/* Inner border */
+.cert-inner{
+    width:100%;
+    height:100%;
+    border:3px dashed #c5a059;
+    text-align:center;
+    position:relative;
+    padding:25px;
+    box-sizing:border-box;
+}
+
+.draggable{
+    position:absolute;
+    cursor:move;
+    user-select:none;
+}
+
+.cert-title{
+    font-size:42px;
+    font-weight:800;
+    color:#c5a059;
+    letter-spacing:3px;
+}
+
+.cert-name{
+    font-size:32px;
+    font-weight:bold;
+    border-bottom:2px solid #333;
+    display:inline-block;
+    padding:5px 15px;
+}
+
+.cert-desc{
+    font-size:18px;
+    max-width:520px;
+    margin:auto;
+}
+
+#loading{
+    display:none;
+    color:#1a237e;
+    font-weight:bold;
+    margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Pure JavaScript Bulk Certificate Generator</h2>
+
+<div class="main-wrapper">
+
+<!-- Editor -->
+<div class="editor">
+    <label>Course Name</label>
+    <input id="course" placeholder="Web Development" oninput="updatePreview()">
+
+    <label>Description / Certificate Text</label>
+    <textarea id="desc" oninput="updatePreview()">
+This certificate is proudly presented to certify that
+    </textarea>
+
+    <label>Student Names</label>
+    <div id="nameInputs">
+        <input class="student-name" placeholder="Student Name" oninput="updatePreview()">
+    </div>
+
+    <button class="btn btn-add" onclick="addInput()">+ Add More Name</button>
+    <button class="btn btn-gen" onclick="generateEverything()">Download ZIP Files</button>
+
+    <div id="loading">Generating certificates...</div>
+</div>
+
+<!-- Preview -->
+<div class="preview">
+    <div id="certificate-canvas">
+        <div class="cert-outer">
+            <div class="cert-inner">
+
+                <div class="draggable" style="top:20px; left:200px;">
+                    <div class="cert-title">CERTIFICATE</div>
+                </div>
+
+                <div class="draggable" style="top:120px; left:150px;">
+                    <div class="cert-desc" id="prevDesc"></div>
+                </div>
+
+                <div class="draggable" style="top:200px; left:200px;">
+                    <div class="cert-name" id="prevName">STUDENT NAME</div>
+                </div>
+
+                <div class="draggable" style="top:280px; left:200px;">
+                    <b id="prevCourse">COURSE NAME</b>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <p><small>👉 Text ko drag karke position adjust karo</small></p>
+</div>
+
+</div>
+
+<script>
+const { jsPDF } = window.jspdf;
+
+function addInput(){
+    const i=document.createElement("input");
+    i.className="student-name";
+    i.placeholder="Next Student";
+    i.oninput=updatePreview;
+    document.getElementById("nameInputs").appendChild(i);
+}
+
+function updatePreview(){
+    document.getElementById("prevName").innerText =
+        document.querySelector(".student-name").value || "STUDENT NAME";
+
+    document.getElementById("prevCourse").innerText =
+        document.getElementById("course").value || "COURSE NAME";
+
+    document.getElementById("prevDesc").innerText =
+        document.getElementById("desc").value;
+}
+
+/* Drag logic */
+document.addEventListener("mousedown",e=>{
+    if(!e.target.closest(".draggable"))return;
+    let el=e.target.closest(".draggable");
+    let x=e.clientX,y=e.clientY;
+    document.onmousemove=ev=>{
+        el.style.left=(el.offsetLeft+(ev.clientX-x))+"px";
+        el.style.top=(el.offsetTop+(ev.clientY-y))+"px";
+        x=ev.clientX; y=ev.clientY;
+    };
+    document.onmouseup=()=>document.onmousemove=null;
+});
+
+async function generateEverything(){
+    document.getElementById("loading").style.display="block";
+    const zip=new JSZip();
+
+    const names=document.querySelectorAll(".student-name");
+    const course=document.getElementById("course").value;
+    const desc=document.getElementById("desc").value;
+
+    for(let n of names){
+        if(!n.value.trim())continue;
+
+        const pdf=new jsPDF("landscape","px",[700,450]);
+        pdf.setDrawColor(26,35,126);
+        pdf.rect(10,10,680,430);
+        pdf.setFontSize(40);
+        pdf.text("CERTIFICATE",350,80,{align:"center"});
+        pdf.setFontSize(18);
+        pdf.text(desc,350,140,{align:"center",maxWidth:500});
+        pdf.setFontSize(30);
+        pdf.text(n.value.toUpperCase(),350,210,{align:"center"});
+        pdf.setFontSize(18);
+        pdf.text(course,350,260,{align:"center"});
+
+        zip.file(n.value+"_Certificate.pdf",pdf.output("blob"));
+    }
+
+    saveAs(await zip.generateAsync({type:"blob"}),"Certificates.zip");
+    document.getElementById("loading").style.display="none";
+    alert("Certificates downloaded 🎉");
+}
+</script>
+
+</body>
+</html>
