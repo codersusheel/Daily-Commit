@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Susheelcoder – Pro Certificate Generator (Logo + Signature)</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+body{
+    font-family: "Segoe UI", sans-serif;
+    background: linear-gradient(135deg,#e3f2fd,#fdfefe);
+    margin:0;
+    padding:20px;
+    text-align:center;
+}
+
+h2{
+    color:#1a237e;
+    margin-bottom:20px;
+}
+
+.main-wrapper{
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+    justify-content:center;
+}
+
+/* Editor */
+.editor{
+    width:380px;
+    background:#fff;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+    text-align:left;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+label{
+    font-weight:600;
+    display: block;
+    margin-top: 12px;
+    color: #1a237e;
+}
+
+input, textarea, select{
+    width:100%;
+    padding:10px;
+    margin:5px 0 10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    box-sizing:border-box;
+}
+
+textarea{
+    resize:none;
+    height:50px;
+}
+
+.btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+    transition: all 0.3s;
+}
+
+.btn-add{
+    background:#e3f2fd;
+    color:#1a237e;
+    border:1px solid #1a237e;
+}
+
+.btn-add:hover{
+    background:#bbdefb;
+}
+
+.btn-gen{
+    background:#1a237e;
+    color:#fff;
+}
+
+.btn-gen:hover{
+    background:#0d1757;
+}
+
+.logo-section{
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+.logo-row{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.logo-input{
+    flex: 1;
+}
+
+/* Preview */
+.preview{
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+    overflow-x: auto;
+}
+
+#certificate-canvas{
+    width:800px;
+    height:500px;
+    background: linear-gradient(135deg, #ffffff 0%, #faf9f0 100%);
+    position:relative;
+    margin:auto;
+    padding:20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Outer border */
+.cert-outer{
+    width:100%;
+    height:100%;
+    border:8px solid #1a237e;
+    padding:15px;
+    box-sizing:border-box;
+    background: white;
+}
+
+/* Inner border */
+.cert-inner{
+    width:100%;
+    height:100%;
+    border:3px double #c5a059;
+    text-align:center;
+    position:relative;
+    padding:20px;
+    box-sizing:border-box;
+    background: rgba(255,255,255,0.9);
+}
+
+.draggable{
+    position:absolute;
+    cursor:move;
+    user-select:none;
+    transition: box-shadow 0.2s;
+}
+
+.draggable:hover{
+    box-shadow: 0 0 10px rgba(26,35,126,0.3);
+}
+
+.fixed-element{
+    position:absolute;
+    user-select:none;
+}
+
+.cert-title{
+    font-size:48px;
+    font-weight:800;
+    color:#c5a059;
+    letter-spacing:5px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.cert-name{
+    font-size:32px;
+    font-weight:bold;
+    border-bottom:3px solid #1a237e;
+    display:inline-block;
+    padding:5px 20px;
+    background: rgba(255,255,255,0.8);
+    color: #1a237e;
+}
+
+.cert-desc{
+    font-size:18px;
+    max-width:600px;
+    margin:auto;
+    line-height: 1.5;
+    color: #333;
+}
+
+.qr-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    background: white;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.qr-code {
+    width: 70px;
+    height: 70px;
+    background: #fff;
+}
+
+.site-name {
+    font-size: 10px;
+    font-weight: bold;
+    color: #1a237e;
+}
+
+.logo-image {
+    max-width: 60px;
+    max-height: 60px;
+    object-fit: contain;
+}
+
+.logo1, .logo2 {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.signature-line {
+    width: 150px;
+    height: 2px;
+    background: #1a237e;
+    margin: 5px auto;
+}
+
+.signature-text {
+    font-size: 14px;
+    color: #1a237e;
+    font-weight: bold;
+    font-style: italic;
+}
+
+#loading{
+    display:none;
+    color:#1a237e;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+/* Toggle Switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    margin-left: 10px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #1a237e;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.drag-control {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 8px 0;
+    padding: 5px;
+    background: #f8f9fa;
+    border-radius: 5px;
+}
+
+.footer-info {
+    font-size: 12px;
+    color: #666;
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>🎓 प्रो सर्टिफिकेट जनरेटर (लोगो + सिग्नेचर के साथ)</h2>
+
+<div class="main-wrapper">
+
+<!-- Editor -->
+<div class="editor">
+    <h3 style="color:#1a237e; text-align:center;">⚙️ Settings</h3>
+    
+    <label>🏫 Course Name</label>
+    <input id="course" placeholder="e.g., Web Development" value="Web Development" oninput="updatePreview()">
+
+    <label>📄 Certificate Description</label>
+    <textarea id="desc" oninput="updatePreview()">This certificate is proudly presented to</textarea>
+
+    <label>👥 Student Names</label>
+    <div id="nameInputs">
+        <input class="student-name" placeholder="Student 1 Name" value="Aarav Sharma" oninput="updatePreview()">
+        <input class="student-name" placeholder="Student 2 Name" value="Ananya Verma" oninput="updatePreview()">
+    </div>
+    <button class="btn btn-add" onclick="addInput()">+ Add More Student</button>
+
+    <!-- Logo Section -->
+    <div class="logo-section">
+        <h4 style="margin:0 0 10px; color:#1a237e;">🏢 Logo Settings</h4>
+        
+        <div class="logo-row">
+            <input type="file" id="logo1Input" class="logo-input" accept="image/*" onchange="handleLogoUpload(1)">
+            <label style="margin:0;">Logo 1 (Left)</label>
+        </div>
+        
+        <div class="logo-row">
+            <input type="file" id="logo2Input" class="logo-input" accept="image/*" onchange="handleLogoUpload(2)">
+            <label style="margin:0;">Logo 2 (Right)</label>
+        </div>
+    </div>
+
+    <!-- Signature Section -->
+    <div class="logo-section">
+        <h4 style="margin:0 0 10px; color:#1a237e;">✍️ Signature Settings</h4>
+        
+        <label>Signer's Name</label>
+        <input id="signerName" placeholder="e.g., Dr. Rajesh Kumar" value="Dr. Rajesh Kumar" oninput="updatePreview()">
+        
+        <label>Designation</label>
+        <input id="signerTitle" placeholder="e.g., Principal" value="Principal" oninput="updatePreview()">
+        
+        <div class="logo-row">
+            <input type="file" id="signatureInput" class="logo-input" accept="image/*" onchange="handleSignatureUpload()">
+            <label style="margin:0;">Signature Image</label>
+        </div>
+    </div>
+
+    <label>🔗 QR Code Website Link</label>
+    <input id="qrLink" placeholder="https://example.com" value="https://susheelcoder.com" oninput="updatePreview()">
+
+    <label>🌐 Site Name (for display)</label>
+    <input id="qrSiteName" placeholder="My Website" value="susheelcoder" oninput="updatePreview()">
+
+    <label>🎯 Draggable Control</label>
+    <div class="drag-control">
+        <span>Title</span>
+        <label class="switch">
+            <input type="checkbox" id="dragTitle" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="drag-control">
+        <span>Description</span>
+        <label class="switch">
+            <input type="checkbox" id="dragDesc" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="drag-control">
+        <span>Student Name</span>
+        <label class="switch">
+            <input type="checkbox" id="dragName" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="drag-control">
+        <span>Course</span>
+        <label class="switch">
+            <input type="checkbox" id="dragCourse" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="drag-control">
+        <span>QR Code</span>
+        <label class="switch">
+            <input type="checkbox" id="dragQR" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="drag-control">
+        <span>Date</span>
+        <label class="switch">
+            <input type="checkbox" id="dragDate" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="drag-control">
+        <span>Unique ID</span>
+        <label class="switch">
+            <input type="checkbox" id="dragUID" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="drag-control">
+        <span>Logo 1</span>
+        <label class="switch">
+            <input type="checkbox" id="dragLogo1" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="drag-control">
+        <span>Logo 2</span>
+        <label class="switch">
+            <input type="checkbox" id="dragLogo2" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="drag-control">
+        <span>Signature</span>
+        <label class="switch">
+            <input type="checkbox" id="dragSignature" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <button class="btn btn-gen" onclick="generateEverything()">📦 Download All Certificates (ZIP)</button>
+    <div id="loading">⏳ Generating certificates, please wait...</div>
+</div>
+
+<!-- Preview -->
+<div class="preview">
+    <div id="certificate-canvas">
+        <div class="cert-outer">
+            <div class="cert-inner">
+
+                <!-- Logo 1 (Left) -->
+                <div id="previewLogo1" class="draggable" style="top:20px; left:30px;">
+                    <img id="logo1Preview" class="logo-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%231a237e' opacity='0.1'/%3E%3Ctext x='30' y='35' font-family='Arial' font-size='12' fill='%231a237e' text-anchor='middle'%3ELOGO 1%3C/text%3E%3C/svg%3E" alt="Logo 1">
+                </div>
+
+                <!-- Logo 2 (Right) -->
+                <div id="previewLogo2" class="draggable" style="top:20px; left:670px;">
+                    <img id="logo2Preview" class="logo-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23c5a059' opacity='0.1'/%3E%3Ctext x='30' y='35' font-family='Arial' font-size='12' fill='%23c5a059' text-anchor='middle'%3ELOGO 2%3C/text%3E%3C/svg%3E" alt="Logo 2">
+                </div>
+
+                <!-- Title -->
+                <div id="previewTitle" class="draggable" style="top:10px; left:250px;">
+                    <div class="cert-title">CERTIFICATE</div>
+                </div>
+
+                <!-- Description -->
+                <div id="previewDesc" class="draggable" style="top:100px; left:150px;">
+                    <div class="cert-desc" id="prevDesc"></div>
+                </div>
+
+                <!-- Student Name -->
+                <div id="previewStudentName" class="draggable" style="top:180px; left:200px;">
+                    <div class="cert-name" id="prevName">STUDENT NAME</div>
+                </div>
+
+                <!-- Course -->
+                <div id="previewCourse" class="draggable" style="top:250px; left:280px;">
+                    <b id="prevCourse">COURSE NAME</b>
+                </div>
+
+                <!-- QR Code -->
+                <div id="previewQR" class="draggable" style="top:320px; left:550px;">
+                    <div class="qr-container">
+                        <canvas id="qrCodePreview" class="qr-code" width="70" height="70"></canvas>
+                        <span class="site-name" id="prevSiteName">susheelcoder</span>
+                    </div>
+                </div>
+
+                <!-- Date -->
+                <div id="previewDate" class="draggable" style="top:420px; left:40px;">
+                    <span style="font-size:14px; background: #f0f0f0; padding: 4px 10px; border-radius: 20px;">📅 <span id="currentDate"></span></span>
+                </div>
+
+                <!-- Unique ID -->
+                <div id="previewUID" class="draggable" style="top:420px; left:650px;">
+                    <span style="font-size:14px; background: #f0f0f0; padding: 4px 10px; border-radius: 20px;">🆔 <span id="uniqueIdPreview">UNIQUE-ID</span></span>
+                </div>
+
+                <!-- Signature Section -->
+                <div id="previewSignature" class="draggable" style="top:370px; left:280px;">
+                    <div style="text-align:center;">
+                        <img id="signaturePreview" style="max-width:150px; max-height:50px; display:block; margin:0 auto;" 
+                             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='50' viewBox='0 0 150 50'%3E%3Cpath d='M20,30 Q40,10 60,30 T100,30 T140,30' stroke='%231a237e' fill='none' stroke-width='2'/%3E%3C/svg%3E">
+                        <div class="signature-text" id="prevSignerName">Dr. Rajesh Kumar</div>
+                        <div style="font-size:12px; color:#666;" id="prevSignerTitle">Principal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p><small>👉 Elements को drag करके position सेट करें। PDF Preview जैसा ही दिखेगा।</small></p>
+</div>
+
+</div>
+
+<script>
+const { jsPDF } = window.jspdf;
+let logo1Data = null;
+let logo2Data = null;
+let signatureData = null;
+
+// Add more student inputs
+function addInput(){
+    const container = document.getElementById("nameInputs");
+    const newInput = document.createElement("input");
+    newInput.className = "student-name";
+    newInput.placeholder = "Extra Student Name";
+    newInput.oninput = updatePreview;
+    container.appendChild(newInput);
+}
+
+// Handle logo uploads
+function handleLogoUpload(logoNumber) {
+    const input = document.getElementById(`logo${logoNumber}Input`);
+    const preview = document.getElementById(`logo${logoNumber}Preview`);
+    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            if (logoNumber === 1) logo1Data = e.target.result;
+            else logo2Data = e.target.result;
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// Handle signature upload
+function handleSignatureUpload() {
+    const input = document.getElementById('signatureInput');
+    const preview = document.getElementById('signaturePreview');
+    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            signatureData = e.target.result;
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// Update date
+function updateDate() {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+    document.getElementById('currentDate').innerText = `${day}/${month}/${year}`;
+}
+
+// Update QR Code
+async function updateQRCode() {
+    const link = document.getElementById('qrLink').value || 'https://example.com';
+    const siteName = document.getElementById('qrSiteName').value || 'website';
+    document.getElementById('prevSiteName').innerText = siteName;
+    
+    try {
+        await QRCode.toCanvas(document.getElementById('qrCodePreview'), link, {
+            width: 70,
+            margin: 1,
+            color: {
+                dark: '#1a237e',
+                light: '#FFFFFF'
+            }
+        });
+    } catch (err) {
+        console.error('QR Error:', err);
+    }
+}
+
+// Update preview
+function updatePreview(){
+    const firstNameInput = document.querySelector(".student-name");
+    document.getElementById("prevName").innerText = firstNameInput?.value?.toUpperCase() || "STUDENT NAME";
+    document.getElementById("prevCourse").innerText = document.getElementById("course").value || "COURSE NAME";
+    document.getElementById("prevDesc").innerText = document.getElementById("desc").value || "Certificate Text";
+    document.getElementById("prevSignerName").innerText = document.getElementById("signerName").value || "Signer Name";
+    document.getElementById("prevSignerTitle").innerText = document.getElementById("signerTitle").value || "Designation";
+    
+    updateQRCode();
+    updateDate();
+}
+
+// Drag logic with checkbox control
+document.addEventListener("mousedown", e => {
+    const draggableElement = e.target.closest(".draggable");
+    if (!draggableElement) return;
+
+    const elementId = draggableElement.id;
+    let canDrag = false;
+    
+    const dragMap = {
+        'previewTitle': 'dragTitle',
+        'previewDesc': 'dragDesc',
+        'previewStudentName': 'dragName',
+        'previewCourse': 'dragCourse',
+        'previewQR': 'dragQR',
+        'previewDate': 'dragDate',
+        'previewUID': 'dragUID',
+        'previewLogo1': 'dragLogo1',
+        'previewLogo2': 'dragLogo2',
+        'previewSignature': 'dragSignature'
+    };
+    
+    if (dragMap[elementId]) {
+        canDrag = document.getElementById(dragMap[elementId])?.checked || false;
+    }
+
+    if (!canDrag) return;
+
+    e.preventDefault();
+    let el = draggableElement;
+    let startX = e.clientX;
+    let startY = e.clientY;
+    let startLeft = el.offsetLeft;
+    let startTop = el.offsetTop;
+
+    document.onmousemove = ev => {
+        let dx = ev.clientX - startX;
+        let dy = ev.clientY - startY;
+        el.style.left = (startLeft + dx) + "px";
+        el.style.top = (startTop + dy) + "px";
+    };
+
+    document.onmouseup = () => {
+        document.onmousemove = null;
+        document.onmouseup = null;
+    };
+});
+
+// Get element positions for PDF
+async function getElementPositions() {
+    const canvas = document.getElementById('certificate-canvas');
+    const elements = {
+        title: document.getElementById('previewTitle'),
+        desc: document.getElementById('previewDesc'),
+        name: document.getElementById('previewStudentName'),
+        course: document.getElementById('previewCourse'),
+        qr: document.getElementById('previewQR'),
+        date: document.getElementById('previewDate'),
+        uid: document.getElementById('previewUID'),
+        logo1: document.getElementById('previewLogo1'),
+        logo2: document.getElementById('previewLogo2'),
+        signature: document.getElementById('previewSignature')
+    };
+    
+    const positions = {};
+    for (let [key, el] of Object.entries(elements)) {
+        if (el) {
+            const rect = el.getBoundingClientRect();
+            const canvasRect = canvas.getBoundingClientRect();
+            
+            // Convert to PDF coordinates (px to px, but PDF uses different origin)
+            positions[key] = {
+                x: rect.left - canvasRect.left + (el.offsetWidth / 2),
+                y: rect.top - canvasRect.top + (el.offsetHeight / 2),
+                width: el.offsetWidth,
+                height: el.offsetHeight
+            };
+        }
+    }
+    return positions;
+}
+
+// Generate unique ID
+function generateUniqueId(index) {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let randomPart = '';
+    for (let i = 0; i < 6; i++) {
+        randomPart += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    const date = new Date();
+    const yr = date.getFullYear().toString().slice(-2);
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    return `CERT-${yr}${month}-${randomPart}-${String(index + 1).padStart(3, '0')}`;
+}
+
+// Generate all certificates
+async function generateEverything(){
+    document.getElementById("loading").style.display = "block";
+    const zip = new JSZip();
+
+    const names = document.querySelectorAll(".student-name");
+    const course = document.getElementById("course").value || "Course";
+    const desc = document.getElementById("desc").value || "Certificate";
+    const qrLink = document.getElementById("qrLink").value || "https://example.com";
+    const siteName = document.getElementById("qrSiteName").value || "Website";
+    const signerName = document.getElementById("signerName").value || "Signer";
+    const signerTitle = document.getElementById("signerTitle").value || "Designation";
+    
+    // Get positions from preview
+    const positions = await getElementPositions();
+
+    let studentIndex = 0;
+    for(let n of names){
+        if(!n.value.trim()) continue;
+        
+        const uniqueId = generateUniqueId(studentIndex);
+        const today = new Date();
+        const dateStr = `${today.getDate().toString().padStart(2,'0')}/${(today.getMonth()+1).toString().padStart(2,'0')}/${today.getFullYear()}`;
+        
+        // Create PDF with exact same dimensions as preview
+        const pdf = new jsPDF({
+            orientation: "landscape",
+            unit: "px",
+            format: [800, 500]
+        });
+
+        // Set background
+        pdf.setFillColor(255, 255, 255);
+        pdf.rect(0, 0, 800, 500, 'F');
+
+        // Outer border
+        pdf.setDrawColor(26, 35, 126);
+        pdf.setLineWidth(8);
+        pdf.rect(20, 20, 760, 460);
+
+        // Inner border
+        pdf.setDrawColor(197, 160, 89);
+        pdf.setLineWidth(3);
+        pdf.setLineDashPattern([5, 3], 0);
+        pdf.rect(40, 40, 720, 420);
+        pdf.setLineDashPattern([], 0);
+
+        // Add logos if available
+        if (logo1Data && positions.logo1) {
+            pdf.addImage(logo1Data, 'PNG', positions.logo1.x - 30, positions.logo1.y - 30, 60, 60);
+        }
+
+        if (logo2Data && positions.logo2) {
+            pdf.addImage(logo2Data, 'PNG', positions.logo2.x - 30, positions.logo2.y - 30, 60, 60);
+        }
+
+        // Title
+        pdf.setFontSize(48);
+        pdf.setFont("helvetica", "bold");
+        pdf.setTextColor(197, 160, 89);
+        pdf.text("CERTIFICATE", positions.title.x, positions.title.y, { align: "center" });
+
+        // Description
+        pdf.setFontSize(18);
+        pdf.setFont("helvetica", "normal");
+        pdf.setTextColor(51, 51, 51);
+        pdf.text(desc, positions.desc.x, positions.desc.y, { align: "center", maxWidth: 600 });
+
+        // Student Name
+        pdf.setFontSize(32);
+        pdf.setFont("helvetica", "bold");
+        pdf.setTextColor(26, 35, 126);
+        pdf.text(n.value.toUpperCase(), positions.name.x, positions.name.y, { align: "center" });
+
+        // Course
+        pdf.setFontSize(20);
+        pdf.setFont("helvetica", "normal");
+        pdf.setTextColor(0, 0, 0);
+        pdf.text(course, positions.course.x, positions.course.y, { align: "center" });
+
+        // Generate QR Code for PDF
+        const qrCanvas = document.createElement('canvas');
+        qrCanvas.width = 70;
+        qrCanvas.height = 70;
+        await QRCode.toCanvas(qrCanvas, qrLink, { width: 70, margin: 1 });
+        const qrImageData = qrCanvas.toDataURL('image/png');
+        
+        // Add QR Code
+        if (positions.qr) {
+            pdf.addImage(qrImageData, 'PNG', positions.qr.x - 35, positions.qr.y - 35, 70, 70);
+            pdf.setFontSize(10);
+            pdf.setTextColor(26, 35, 126);
+            pdf.text(siteName, positions.qr.x, positions.qr.y + 25, { align: "center" });
+        }
+
+        // Add Date
+        if (positions.date) {
+            pdf.setFontSize(14);
+            pdf.setTextColor(100, 100, 100);
+            pdf.text(`📅 ${dateStr}`, positions.date.x, positions.date.y);
+        }
+
+        // Add Unique ID
+        if (positions.uid) {
+            pdf.setFontSize(14);
+            pdf.setTextColor(100, 100, 100);
+            pdf.text(`🆔 ${uniqueId}`, positions.uid.x, positions.uid.y);
+        }
+
+        // Add Signature
+        if (signatureData && positions.signature) {
+            pdf.addImage(signatureData, 'PNG', positions.signature.x - 75, positions.signature.y - 30, 150, 50);
+            pdf.setFontSize(14);
+            pdf.setTextColor(26, 35, 126);
+            pdf.setFont("helvetica", "bold");
+            pdf.text(signerName, positions.signature.x, positions.signature.y + 10, { align: "center" });
+            pdf.setFontSize(12);
+            pdf.setFont("helvetica", "normal");
+            pdf.setTextColor(102, 102, 102);
+            pdf.text(signerTitle, positions.signature.x, positions.signature.y + 25, { align: "center" });
+        }
+
+        // Save to zip
+        zip.file(`${n.value.trim()}_Certificate.pdf`, pdf.output("blob"));
+        studentIndex++;
+    }
+
+    // Download zip
+    saveAs(await zip.generateAsync({ type: "blob" }), "Certificates.zip");
+    document.getElementById("loading").style.display = "none";
+    alert(`✅ ${studentIndex} certificates generated successfully!`);
+}
+
+// Initialize on load
+window.onload = function() {
+    updateDate();
+    updateQRCode();
+    updatePreview();
+};
+</script>
+
+</body>
+</html>
