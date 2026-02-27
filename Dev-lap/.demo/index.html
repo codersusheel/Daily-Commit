@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- ================= BASIC SEO ================= -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dev-Lab | Web Development Hub – Haproven</title>
+
+    <meta name="description"
+        content="Dev-Lab is a web development hub with continuously updated website knowledge and coding guides.">
+
+    <meta name="keywords"
+        content="Dev-Lab, Haproven, Web Development, Website Design, HTML, CSS, JavaScript, Frontend Development, Website Structure, Coding Guides, Web Tutorials, Responsive Design, UI Development">
+
+    <meta name="author" content="Haproven Team">
+    <meta name="robots" content="index, follow">
+
+    <link rel="canonical" href="https://haproven.netlify.app/Dev-Lab/">
+
+    <!-- ===== BRANDING / THEME ===== -->
+    <meta name="theme-color" content="#2b6be4">
+
+    <!-- ===== ICONS ===== -->
+    <link rel="icon" type="image/png" href="https://haproven.netlify.app/IMG/haproven-logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://haproven.netlify.app/IMG/haproven-logo.png">
+
+    <!-- ================= OPEN GRAPH ================= -->
+    <meta property="og:type" content="WebSite">
+    <meta property="og:site_name" content="Haproven">
+    <meta property="og:title" content="Dev-Lab | Web Development Hub – Haproven">
+    <meta property="og:description"
+        content="Dev-Lab is a web development hub with continuously updated website knowledge and coding guides.">
+    <meta property="og:url" content="https://haproven.netlify.app/Div-lab/">
+    <!-- <meta property="og:image" content="https://haproven.netlify.app/HaproID/IMG/App-install.png"> -->
+
+    <!-- ===== TWITTER CARD ===== -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dev-Lab | Web Development Hub – Haproven ">
+    <meta name="twitter:description"
+        content="Dev-Lab is a web development hub with continuously updated website knowledge and coding guides.">
+    <!-- <meta name="twitter:image" content="https://haproven.netlify.app/HaproID/IMG/App-install.png"> -->
+
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Dev-Lab",
+  "url": "https://haproven.netlify.app/dev-lab/",
+  "description": "Dev-Lab is a growing web development hub where website-related knowledge and coding resources are continuously added.",
+  "inLanguage": "en",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Haproven",
+    "url": "https://haproven.netlify.app/"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Susheel Kumar"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Haproven",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://haproven.netlify.app/IMG/haproven-logo.png"
+    }
+  }
+}
+</script>
+
+
+    <link rel="stylesheet" href="/assets/style.css">
+    <meta name="google-site-verification" content="pFQ1E7rwZfZG883E_7F4WYRTV6bd-wm_H4KHD5lhFsk" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+
+
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <div class="haproven-brand sm"></div>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
+        <nav id="navbar">
+            <ul>
+                <li class="active" data-section="home">
+                    <a href="/" class="fas fa-hom"> Home</a>
+                </li>
+                <li class="active" data-section="home">
+                    <a href="/Directory/" class="fas fa-hom"> Directory</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("navbar").classList.toggle("active");
+        }
+    </script>
+
+
+
+
+
+    <style>
+        .active a {
+            font-family: 'Poppins', system-ui, sans-serif;
+        }
+
+        .brand-bar {
+            background-color: #00000000;
+        }
+
+        .brand-text {
+            color: #37ee98;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+    <aside class="sidebar">
+
+        <!-- Brand -->
+        <div class="sidebar-brand">
+            <h2 class="brand-title">
+                <div class="haproven-brand sm"> Haproven</div>
+            </h2>
+            <p class="brand-tagline">Showcase your work and achievements with Haproven.</p>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+
+                <li class="nav-item"><a href="/">Home Page</a></li>
+
+
+
+                <li class="nav-item has-submenu">
+                    HaproID
+                    <ul class="submenu">
+                        <li> <a href="#about">About</a></li>
+                        <li><a href="#portfolio-Search">Search profiles </a></li>
+                        <li><a href="#pricing-section">HaproID Plan </a></li>
+                        <li><a href="#Contact">Contact </a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item has-submenu">
+                    Directory
+                    <ul class="submenu">
+                        <li> <a href="/Directory/">Page</a></li>
+                        <li> <a href="/Directory/#Project-section">Project section</a></li>
+                        <li><a href="/Directory/#Pages-Section">Pages Section</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="">Vishnupur-SMR</a></li>
+                <li class="nav-item"><a href="">Haproven Timer</a></li>
+                <li class="nav-item"><a href="">Haproven Compiler</a></li>
+                <li class="nav-item"><a href="">Screen Size Checker</a></li>
+                <li class="nav-item"><a href="">Haproven Tasletar</a></li>
+            </ul>
+        </nav>
+
+        <!-- Social Links -->
+        <div class="sidebar-footer">
+            <hr>
+            <ul class="social-links">
+                <li><a target="_blank" href="https://github.com/susheelcoder/haproven">GitHub</a></li>
+                <li><a target="_blank" href="https://www.instagram.com/haproven/">instagram</a></li>
+                <li><a target="_blank" href="https://linktr.ee/haproven">linktr.ee</a></li>
+            </ul>
+        </div>
+
+    </aside>
+
+    <main class="main-content">
+
+
+        <!--=============
+        Hero section
+        ============== -->
+
+ 
+    <!-- HERO SECTION -->
+    <section class="dev-hero">
+        <div class="hero-content">
+            <h1>Welcome to Dev-Lab</h1>
+            <p>
+                Dev-Lab is Haproven’s dedicated web development knowledge hub where 
+                website structure, design concepts, coding techniques, and practical 
+                implementation guides are continuously added.
+            </p>
+        </div>
+    </section>
+
+
+    <!-- ABOUT SECTION -->
+    <section class="dev-about">
+        <div class="container">
+            <h2>About Dev-Lab</h2>
+            <p>
+                Dev-Lab is designed to provide structured and practical web development knowledge.
+                Here, you can explore how websites are built from scratch, understand layouts,
+                learn modern UI design techniques, and see real working code examples.
+            </p>
+
+            <p>
+                This section will gradually include guides, reusable components,
+                development concepts, structured layouts, optimization techniques,
+                and much more — making it a complete development resource center.
+            </p>
+        </div>
+    </section>
+
+
+    <!-- FEATURES SECTION -->
+    <section class="dev-features">
+        <div class="container">
+            <h2>What You’ll Find in Dev-Lab</h2>
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+                    <h3>Website Structure</h3>
+                    <p>Learn proper folder setup, HTML structure, semantic elements, and clean architecture.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>UI Components</h3>
+                    <p>Headers, footers, navigation bars, hero sections, cards, and responsive layouts.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Responsive Design</h3>
+                    <p>Mobile-friendly design techniques using Flexbox, Grid, and modern CSS.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Practical Code</h3>
+                    <p>Real working examples with explanation to understand implementation clearly.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FAQ SECTION -->
+    <section class="dev-faq">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <h4>What is Dev-Lab?</h4>
+                <p>Dev-Lab is a structured web development learning section created to explain how websites are designed and built.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4>Is Dev-Lab beginner friendly?</h4>
+                <p>Yes, content is added step-by-step, making it suitable for beginners as well as intermediate developers.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4>Will more resources be added?</h4>
+                <p>Yes, Dev-Lab is continuously growing and new guides, concepts, and development resources are regularly added.</p>
+            </div>
+
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+        <footer class="pro-footer">
+
+            <div class="footer-container">
+
+                <!-- Brand -->
+                <div class="footer-col brand">
+                    <h2>Haproven</h2>
+                    <p>Showcase your professional profile online with Haproven.</p>
+
+                    <!-- <div class="footer-social">
+                        <a href="https://github.com/susheelcoder/haproven"> <i class="fa-brands fa-GitHub"></i></a>
+                        <a href="/https://www.instagram.com/haproven/"> <i class="fa-brands fa-instagram"></i></a>
+                        <a href=""> <i class="fa-brands fa-youtube"></i></a>
+                        <a href=""> <i class="fa-brands fa-x-twitter"></i></a>
+                    </div> -->
+
+                </div>
+
+
+
+                <!-- Links -->
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <a href="/">Home</a>
+                    <a href="#">Profiles</a>
+                    <a href="/profile/">Projects</a>
+                    <a href="/Page/join-haproven/">Join</a>
+                </div>
+
+                <!-- Services -->
+                <div class="footer-col">
+                    <h3>Services</h3>
+                    <a href="">Web Design</a>
+                    <a href="">UI/UX Design</a>
+                    <a href="">SEO Optimization</a>
+                    <a href="https://forms.gle/CY8RnK1rtD63o14x7">HaproID Second Form</a>
+                </div>
+
+                <!-- Contact -->
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <p>Email:- haproven.sport@gmail.com</p>
+                    <p>Phone: +91 00000 00000</p>
+                    <address>Head Office: Delhi, India</address>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2025 Haproven Profile — All Rights Reserved.</p>
+            </div>
+
+        </footer>
+
+
+
+
+    </main>
+
+</body>
+<script src="/JS/haproven-icon.js"></script>
+<script src="script.js"></script>
+<script src="/JS/Silent Blocker.js"></script>
+<script src="/JS/logo-animesan.js"></script>
+
+
+</html>
