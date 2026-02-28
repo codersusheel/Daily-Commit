@@ -3,39 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python in HTML</title>
+    <title>Real-time Hand Pattern Tool</title>
     
     <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
     
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; padding-top: 50px; background-color: #f0f2f5; }
-        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        #output { margin-top: 20px; font-weight: bold; color: #2c3e50; font-size: 1.2rem; }
+        body { font-family: sans-serif; text-align: center; background: #fdfaf6; padding-top: 20px; }
+        .container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        #canvas-output { border: 2px solid #ddd; max-width: 90%; }
+        .controls { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        input[type="range"] { width: 200px; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>Susheelcoder's Python-HTML Test</h1>
-        <p>Niche wala button Python code trigger karega:</p>
-        
-        <button id="my-button" py-click="say_hello" style="padding: 10px 20px; cursor: pointer; background: #3498db; color: white; border: none; border-radius: 5px;">
-            Python Run Karo!
-        </button>
+    <div class="container">
+        <h1>Hand Pattern Customizer</h1>
+        <p>Use Python in your browser to apply pattern live!</p>
 
-        <div id="output"></div>
+        <canvas id="canvas-output"></canvas>
+
+        <div class="controls">
+            <label>Pattern Scale:</label>
+            <input type="range" id="scale-slider" min="10" max="200" value="100">
+            
+            <label style="margin-left: 20px;">Pattern Opacity:</label>
+            <input type="range" id="opacity-slider" min="0" max="100" value="80">
+        </div>
     </div>
 
     <script type="py">
-        from pyscript import display, document
+        import cv2
+        import numpy as np
+        from pyscript import document, window
+        import asyncio
 
-        def say_hello(event):
-            # HTML element ko select karke usme text dalna
-            output_div = document.querySelector("#output")
-            output_div.innerText = "Kya baat hai! Python HTML ke andar chal rahi hai! 🚀"
-            print("Console mein bhi print ho raha hai!")
+        # Global variables
+        hand_img_orig = None
+        pattern_img_orig = None
+        scale_val = 1.0
+        opacity_val = 0.8
+
+        async def load_images():
+            global hand_img_orig, pattern_img_orig
+            # Browser se images load karte hain
+            hand_resp = await window.fetch('hand_image.jpg')
+            hand_buf = await hand_resp.arrayBuffer()
+            hand_arr = np.frombuffer(hand_buf, np.uint8)
+            hand_img_orig = cv2.imdecode(hand_arr, cv2.IMREAD_COLOR)
+
+            pattern_resp = await window.fetch('pattern.png')
+            pattern_buf = await pattern_resp.arrayBuffer()
+            pattern_arr = np.frombuffer(pattern_buf, np.uint8)
+            # Pattern ko alpha channel (transparency) ke saath read karna zaruri hai
+            pattern_img_orig = cv2.imdecode(pattern_arr, cv2.IMREAD_UNCHANGED)
+            
+            # Shuru mein output render karna
+            update_output()
+
+        def update_output(evt=None):
+            global scale_val, opacity_val
+            
+            if hand_img_orig is None or pattern_img_orig is None:
+                return
+
+            # Sliders se values lena
+            scale_val = float(document.querySelector("#scale-slider").value) / 100.0
+            opacity_val = float(document.querySelector("#opacity-slider").value) / 100.0
+
+            # 1. Pattern ko scale karna
+            new_width = int(pattern_img_orig.shape[1] * scale_val)
+            new_height = int(pattern_img_orig.shape[0] * scale_val)
+            # Zero size check to prevent OpenCV error
+            if new_width <= 0 or new_height <= 0: return
+
+            scaled_pattern = cv2.resize(pattern_img_orig, (new_width, new_height), interpolation=cv2.INTER_AREA)
+
+            # 2. Pattern ki height/width aur position set karna
+            h_p, w_p, c_p = scaled_pattern.shape
+            h_h, w_h, c_h = hand_img_orig.shape
+
+            # Position center of the hand image
+            y_offset = (h_h - h_p) // 2
+            x_offset = (w_h - w_p) // 2
+
+            # Resultant image copy
+            result = hand_img_orig.copy()
+
+            # 3. Alpha Blending (Asli magic yahan hai jisse transparency handle hoti hai)
+            for y in range(h_p):
+                for x in range(w_p):
+                    # Check if pixel is within hand image boundaries
+                    if y + y_offset >= h_h or x + x_offset >= w_h or y + y_offset < 0 or x + x_offset < 0:
+                        continue
+                        
+                    alpha = scaled_pattern[y, x, 3] / 255.0  # Fourth channel is alpha
+                    
+                    if alpha > 0:
+                        # Blend the pattern color with hand color
+                        for c in range(0):  # BGR channels
+                            result[y+y_offset, x+x_offset, c] = \
+                                (alpha * opacity_val * scaled_pattern[y, x, c] + \
+                                (1.0 - (alpha * opacity_val)) * hand_img_orig[y+y_offset, x+x_offset, c])
+
+            # 4. Final output ko Canvas par dikhana
+            final_img = cv2.cvtColor(result, cv2.COLOR_BGR2RGBA)
+            width, height = final_img.shape[1], final_img.shape[0]
+            
+            canvas = document.querySelector("#canvas-output")
+            canvas.width = width
+            canvas.height = height
+            
+            ctx = canvas.getContext("2d")
+            image_data = ctx.createImageData(width, height)
+            image_data.data.assign(final_img.flatten())
+            ctx.putImageData(image_data, 0, 0)
+
+        # Event Listeners setup karna
+        document.querySelector("#scale-slider").addEventListener("input", update_output)
+        document.querySelector("#opacity-slider").addEventListener("input", update_output)
+
+        # Images load karne se shuru karo
+        asyncio.ensure_future(load_images())
     </script>
-
 </body>
 </html>
