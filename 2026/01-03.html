@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+</head>
+<body>
+
+    <h1>पायथन के साथ 1 से 200 तक गिनती:</h1>
+    
+    <div id="output"></div>
+
+    <py-script>
+        # पायथन कोड यहाँ लिखें
+        output_div = Element("output")
+        counting = ""
+        
+        for i in range(1, 201):
+            counting += str(i) + " "
+            
+        output_div.write(counting)
+    </py-script>
+
+</body>
+</html>
