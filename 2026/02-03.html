@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Full Page Dotted Background</title>
+    <style>
+        /* Reset */
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body{
+            width: 100%;
+            height: 100%;
+        }
+
+        body{
+            /* Background color */
+            background-color: #0f172a;
+
+            /* Dotted pattern */
+            background-image: radial-gradient(
+                rgba(255,255,255,0.3) 1px,
+                transparent 1px
+            );
+            background-size: 20px 20px;
+
+            /* Center content (optional) */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        h1{
+            font-size: 2.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Dotted Background Page</h1>
+
+</body>
+</html>
