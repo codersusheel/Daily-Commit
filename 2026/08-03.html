@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Quiz Challenge</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f0f2f5; height: 100vh; display: flex; justify-content: center; align-items: center; }
+        .container { width: 100%; max-width: 500px; height: 100vh; background: white; display: flex; flex-direction: column; padding: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+        .hidden { display: none !important; }
+        
+        /* Screen Styles */
+        .screen { flex: 1; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+        h1 { color: #1a73e8; margin-bottom: 10px; }
+        p { color: #5f6368; margin-bottom: 20px; }
+        
+        /* Quiz Elements */
+        #question-text { font-size: 1.5rem; font-weight: bold; margin-bottom: 30px; height: 80px; display: flex; align-items: center; justify-content: center; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex: 1; }
+        .option-btn { background: #e8f0fe; border: 2px solid #1a73e8; border-radius: 12px; padding: 20px; font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+        .option-btn:hover { background: #1a73e8; color: white; }
+        
+        /* UI Elements */
+        .btn-main { background: #1a73e8; color: white; border: none; padding: 15px 30px; border-radius: 25px; font-size: 1.1rem; cursor: pointer; align-self: center; }
+        .stats { margin-top: 20px; font-weight: bold; font-size: 1.1rem; }
+        #timer { font-size: 1.2rem; color: #d93025; margin-bottom: 10px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="start-screen" class="screen">
+        <h1>Quiz Master</h1>
+        <p>Yeh ek mazedaar challenge hai. Aapko 10 sawalo ke jawab dene honge. Kya aap taiyar hain?</p>
+        <button class="btn-main" onclick="startGame()">Start Game</button>
+    </div>
+
+    <div id="quiz-screen" class="screen hidden">
+        <div id="timer">Time: 0s</div>
+        <div id="question-number" style="color: #888;">Question 1/10</div>
+        <div id="question-text">Question loading...</div>
+        <div class="options-grid" id="options-container">
+            </div>
+    </div>
+
+    <div id="result-screen" class="screen hidden">
+        <h1>Result</h1>
+        <div class="stats" id="final-stats"></div>
+        <br>
+        <button class="btn-main" onclick="resetGame()">Try Again</button>
+    </div>
+</div>
+
+<script>
+    // --- QUESTION DATABASE (Yaha naye question add karein) ---
+    const allQuestions = [
+        { q: "Bharat ki rajdhani kya hai?", a: ["Delhi", "Mumbai", "Kolkata", "Chennai"], correct: 0 },
+        { q: "2 + 2 kitna hota hai?", a: ["3", "4", "5", "6"], correct: 1 },
+        { q: "Cricket me ek over me kitni ball hoti hai?", a: ["4", "5", "6", "8"], correct: 2 },
+        { q: "Asman ka rang kaisa hota hai?", a: ["Lal", "Peela", "Neela", "Hara"], correct: 2 },
+        { q: "Computer ka brain kise kehte hain?", a: ["RAM", "CPU", "Mouse", "Monitor"], correct: 1 },
+        { q: "Taj Mahal kaha hai?", a: ["Agra", "Delhi", "Jaipur", "Lucknow"], correct: 0 },
+        { q: "Hafte me kitne din hote hain?", a: ["5", "6", "8", "7"], correct: 3 },
+        { q: "Water ka chemical formula?", a: ["CO2", "O2", "H2O", "NaCl"], correct: 2 },
+        { q: "Apple ka rang kya hai?", a: ["Red", "Blue", "Black", "Yellow"], correct: 0 },
+        { q: "Suraj kis disha se ugta hai?", a: ["West", "North", "South", "East"], correct: 3 },
+        { q: "India ka national animal?", a: ["Lion", "Tiger", "Elephant", "Cow"], correct: 1 },
+        { q: "1 saal me kitne mahine hote hain?", a: ["10", "11", "12", "13"], correct: 2 },
+        { q: "Baraf kis se banti hai?", a: ["Hawa", "Pani", "Mitti", "Aag"], correct: 1 },
+        { q: "Internet ka king kise kehte hain?", a: ["Yahoo", "Bing", "Google", "Facebook"], correct: 2 },
+        { q: "Human body me kitni bones hoti hain?", a: ["200", "206", "210", "250"], correct: 1 },
+        { q: "Facebook ke owner?", a: ["Elon Musk", "Bill Gates", "Mark Zuckerberg", "Jeff Bezos"], correct: 2 },
+        { q: "ISRO ka headquarter?", a: ["Mumbai", "Bangalore", "Delhi", "Pune"], correct: 1 },
+        { q: "Sabse tej dodne wala janwar?", a: ["Cheetah", "Horse", "Lion", "Dog"], correct: 0 },
+        { q: "Mobile ka avishkar kisne kiya?", a: ["Newton", "Martin Cooper", "Tesla", "Edison"], correct: 1 },
+        { q: "Chand par pehla kadam kisne rakha?", a: ["Neil Armstrong", "Buzz Aldrin", "Rakesh Sharma", "Yuri Gagarin"], correct: 0 }
+    ];
+
+    let currentQuestions = [];
+    let qIndex = 0;
+    let correctCount = 0;
+    let timerInterval;
+    let seconds = 0;
+
+    function startGame() {
+        // Randomly pick 10 questions from the 20 provided
+        currentQuestions = [...allQuestions].sort(() => 0.5 - Math.random()).slice(0, 10);
+        qIndex = 0;
+        correctCount = 0;
+        seconds = 0;
+        
+        document.getElementById('start-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        
+        startTimer();
+        showQuestion();
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            seconds++;
+            document.getElementById('timer').innerText = `Time: ${seconds}s`;
+        }, 1000);
+    }
+
+    function showQuestion() {
+        const q = currentQuestions[qIndex];
+        document.getElementById('question-number').innerText = `Question ${qIndex + 1}/10`;
+        document.getElementById('question-text').innerText = q.q;
+        
+        const container = document.getElementById('options-container');
+        container.innerHTML = '';
+        
+        q.a.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(index);
+            container.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selected) {
+        if (selected === currentQuestions[qIndex].correct) {
+            correctCount++;
+        }
+        
+        qIndex++;
+        if (qIndex < 10) {
+            showQuestion();
+        } else {
+            endGame();
+        }
+    }
+
+    function endGame() {
+        clearInterval(timerInterval);
+        document.getElementById('quiz-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('hidden');
+        
+        document.getElementById('final-stats').innerHTML = `
+            <p>Sahi Jawab: <span style="color:green">${correctCount}</span></p>
+            <p>Galat Jawab: <span style="color:red">${10 - correctCount}</span></p>
+            <p>Total Time: ${seconds} seconds</p>
+        `;
+    }
+
+    function resetGame() {
+        startGame();
+    }
+</script>
+
+</body>
+</html>
