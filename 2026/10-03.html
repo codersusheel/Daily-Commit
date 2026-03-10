@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Special Proposal</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #fce7f3, #e0e7ff); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        .card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; max-width: 500px; width: 100%; }
+        h1 { color: #831843; }
+        p { color: #4b5563; line-height: 1.6; }
+        input { width: 80%; padding: 12px; margin: 20px 0; border: 2px solid #fbcfe8; border-radius: 10px; }
+        button { background: #db2777; color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: bold; }
+        #result { margin-top: 30px; padding: 20px; border-top: 2px dashed #fbcfe8; display: none; }
+        .shayari { font-style: italic; font-size: 1.3rem; color: #1e293b; margin: 15px 0; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Dil Ki Baat</h1>
+    <p>Har kisi ke dil mein ek kahani hoti hai, aur meri kahani tumhare naam se shuru hoti hai. Apna naam batayein?</p>
+    
+    <input type="text" id="name" placeholder="Yahan apna naam likhein...">
+    <br>
+    <button onclick="showProposal()">Dekhein Kya Likha Hai</button>
+
+    <div id="result">
+        <div class="shayari" id="msg"></div>
+        <button style="background: #0f172a; margin-top: 10px;" onclick="alert('Woh keh rahi hain: Haan! 😍')">Accept</button>
+    </div>
+</div>
+
+<script>
+    function showProposal() {
+        let name = document.getElementById("name").value;
+        if(name === "") return alert("Naam toh batao!");
+        
+        const shayaris = [
+            `Chand ki chandni se bhi zyada noor hai tum mein, ${name},<br>Isliye toh itna suroor hai tum mein.`,
+            `${name}, tumhari aankhon mein basta hai mera jahan,<br>Kya tum banogi meri zindagi ka karwaan?`,
+            `Duniya ki bheed mein ek tum hi toh ho, ${name},<br>Jisne meri dhadkanon ko hai naam diya.`
+        ];
+        
+        let randomShayari = shayaris[Math.floor(Math.random() * shayaris.length)];
+        document.getElementById("msg").innerHTML = randomShayari;
+        document.getElementById("result").style.display = "block";
+    }
+</script>
+
+</body>
+</html>
