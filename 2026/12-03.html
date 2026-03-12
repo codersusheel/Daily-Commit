@@ -2,76 +2,104 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Full Screen Check</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#000000">
+    <title>Full Screen App</title>
+    
+    <script>
+        const myManifest = {
+            "name": "Super Fullscreen App",
+            "short_name": "FullApp",
+            "start_url": ".",
+            "display": "fullscreen",
+            "orientation": "portrait",
+            "background_color": "#000000",
+            "theme_color": "#000000",
+            "icons": [{ "src": "https://via.placeholder.com/192", "sizes": "192x192", "type": "image/png" }]
+        };
+        const stringManifest = JSON.stringify(myManifest);
+        const blob = new Blob([stringManifest], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(blob);
+        document.querySelector('head').insertAdjacentHTML('beforeend', `<link rel="manifest" href="${manifestURL}">`);
+    </script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        body {
+        body, html {
+            height: 100%;
             background-color: black;
             color: white;
             font-family: sans-serif;
-            text-align: center;
+            overflow: hidden; /* Scroll hide karne ke liye agar content chhota hai */
         }
 
-        /* Full page height container */
-        .container {
-            width: 100%;
-            min-height: 200vh; /* Scroll check karne ke liye double height */
+        .full-page {
+            height: 100vh;
+            width: 100vw;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            border: 5px solid red; /* Border taaki corners dikhen */
+            border: 4px solid lime; /* Border check karne ke liye */
         }
 
-        .section {
+        .top-bar { background: red; padding: 10px; text-align: center; }
+        .bottom-bar { background: blue; padding: 10px; text-align: center; }
+        
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
-            font-size: 20px;
         }
 
         button {
             padding: 15px 30px;
-            font-size: 18px;
-            cursor: pointer;
-            margin-top: 50px;
-            background: #28a745;
-            color: white;
+            font-size: 20px;
+            background: white;
+            color: black;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <div class="container" id="main">
-        <div class="section" style="background: navy;">
-            <b>TOP EDGE:</b> Yahan se screen shuru ho rahi hai.
+    <div class="full-page">
+        <div class="top-bar">TOP: Ye ekdum upar hai</div>
+        
+        <div class="main-content">
+            <h1>PWA Full Screen</h1>
+            <p>1. Is page ko "Add to Home Screen" karein.</p>
+            <p>2. App icon se kholne par ye FULL dikhega.</p>
+            <br>
+            <button onclick="goFull()">Activate Full Screen Now</button>
         </div>
 
-        <div class="content">
-            <h1>Screen Test</h1>
-            <p>Niche wale button ko dabayein:</p>
-            <button onclick="openFullscreen()">Go Full Screen</button>
-            <p style="margin-top: 100px;">Ab niche scroll karke dekhein...</p>
-        </div>
-
-        <div class="section" style="background: darkgreen;">
-            <b>BOTTOM EDGE:</b> Ye screen ka sabse niche wala hissa hai.
-        </div>
+        <div class="bottom-bar">BOTTOM: Ye ekdum niche hai</div>
     </div>
 
     <script>
-        var elem = document.documentElement;
-        function openFullscreen() {
+        // Fullscreen Function
+        function goFull() {
+            let elem = document.documentElement;
             if (elem.requestFullscreen) {
                 elem.requestFullscreen();
-            } else if (elem.webkitRequestFullscreen) { /* Safari */
+            } else if (elem.webkitRequestFullscreen) {
                 elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) { /* IE11 */
-                elem.msRequestFullscreen();
             }
         }
-    </script>
 
+        // Service Worker (Zaruri hai PWA ke liye)
+        if ('serviceWorker' in navigator) {
+            const swCode = `self.addEventListener('fetch', function(event) {});`;
+            const swBlob = new Blob([swCode], {type: 'application/javascript'});
+            const swUrl = URL.createObjectURL(swBlob);
+            navigator.serviceWorker.register(swUrl);
+        }
+    </script>
 </body>
 </html>
