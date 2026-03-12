@@ -1,12 +1,16 @@
 #include <stdio.h>
 
 int main() {
-    int x; // Variable declare kiya
-    printf("Ek number enter karein: ");
-    
-    // Input lene ke liye
+    int x, y;
+
+    printf("Pehla number enter karein: ");
     scanf("%d", &x); 
+
+    printf("Doosra number enter karein: ");
+
+    scanf("%d", &y);
+
+    printf("Aapne enter kiya: %d aur %d", x, y);
     
-    printf("Aapne enter kiya: %d", x);
     return 0;
 }
