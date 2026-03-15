@@ -22,9 +22,13 @@ int main() {
     y =y +b;
     
     
+
+
+
     
     
     printf("output x =%d and y =%d",x,y);
     
+    printf(" susheel");
     return 0;
 }
