@@ -2,7 +2,6 @@
 
 
 #include <stdio.h>
-
 // Function definition
 void printNumbers(int n) {
     int i = 1;
