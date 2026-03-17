@@ -11,6 +11,12 @@ int main() {
     scanf("%d", &y);
 
     printf("Aapne enter kiya: %d aur %d", x, y);
+
+printf("hello");
     
     return 0;
 }
+
+
+
+
