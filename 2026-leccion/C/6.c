@@ -2,7 +2,7 @@
 
 int main() {
     int i, j;
-    int rows = 20;
+    int rows = 50;
 
     // Outer loop lines control karne ke liye
     for (i = rows; i >= 1; i--) {
