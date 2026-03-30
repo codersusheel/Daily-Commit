@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Flip Card</title>
+    <style>
+        /* Card container ka size */
+        .flip-card {
+            background-color: transparent;
+            width: 300px;
+            height: 400px;
+            perspective: 1000px; /* 3D effect ke liye */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Inner container jo rotate hoga */
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border-radius: 15px;
+        }
+
+        /* Hover karne par flip action */
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Front aur Back sides ki common styling */
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Peeche ka hissa chhupane ke liye */
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* --- FRONT SIDE --- */
+        .card-front {
+            background-color: #bbb;
+            color: white;
+        }
+
+        .card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Image ke upar naam */
+        .card-front h2 {
+            position: absolute;
+            bottom: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            width: 100%;
+            margin: 0;
+            padding: 10px 0;
+        }
+
+        /* --- BACK SIDE --- */
+        .card-back {
+            background-color: #2c3e50;
+            color: white;
+            transform: rotateY(180deg); /* Pehle se ulta rakha hai */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .card-back h2 { margin-bottom: 5px; color: #f1c40f; }
+        .card-back .role { font-style: italic; margin-bottom: 20px; opacity: 0.8; }
+        .card-back p { line-height: 1.6; }
+
+    </style>
+</head>
+<body>
+
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            
+            <div class="card-front">
+                <img src="https://via.placeholder.com/300x400" alt="Profile">
+                <h2>John Doe</h2>
+            </div>
+
+            <div class="card-back">
+                <h2>John Doe</h2>
+                <p class="role">UI/UX Designer</p>
+                <hr style="width: 50%; border: 1px solid #f1c40f;">
+                <p><b>About:</b> Main ek creative designer hoon jo sundar aur functional websites banana pasand karta hoon. Mujhe coding aur design ka combination pasand hai.</p>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

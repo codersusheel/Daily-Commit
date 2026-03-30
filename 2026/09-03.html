@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Quiz Challenge Pro</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --success: #22c55e;
+            --error: #ef4444;
+            --bg: #f8fafc;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
+        body { background: var(--bg); min-height: 100vh; display: flex; justify-content: center; align-items: center; }
+        
+        .container { 
+            width: 100%; max-width: 450px; background: white; 
+            border-radius: 20px; padding: 30px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            position: relative; overflow: hidden;
+        }
+        
+        .hidden { display: none !important; }
+        
+        /* Progress Bar */
+        .progress-container { width: 100%; height: 8px; background: #e2e8f0; border-radius: 10px; margin-bottom: 20px; }
+        #progress-bar { width: 0%; height: 100%; background: var(--primary); border-radius: 10px; transition: 0.3s; }
+
+        /* Question Section */
+        #question-text { font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 20px 0; min-height: 60px; }
+        
+        .options-grid { display: flex; flex-direction: column; gap: 12px; }
+        .option-btn { 
+            background: #ffffff; border: 2px solid #e2e8f0; border-radius: 12px; 
+            padding: 16px; font-size: 1rem; cursor: pointer; transition: all 0.2s;
+            text-align: left; font-weight: 500;
+        }
+        .option-btn:hover { border-color: var(--primary); background: #f5f3ff; }
+        .option-btn.correct { background: var(--success) !important; color: white; border-color: var(--success); }
+        .option-btn.wrong { background: var(--error) !important; color: white; border-color: var(--error); }
+        .disabled { pointer-events: none; }
+
+        /* Header UI */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        #timer { font-weight: 700; color: #64748b; font-variant-numeric: tabular-nums; }
+        
+        .btn-main { 
+            background: var(--primary); color: white; border: none; 
+            padding: 14px 28px; border-radius: 12px; font-weight: 600;
+            cursor: pointer; width: 100%; margin-top: 20px;
+        }
+        
+        .result-card { text-align: center; }
+        .score-circle { 
+            width: 100px; height: 100px; border-radius: 50%; background: var(--primary);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; font-weight: 800; margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="start-screen" class="screen">
+        <h1 style="color: var(--primary); margin-bottom: 15px;">Quiz Master 2.0</h1>
+        <p style="color: #64748b; margin-bottom: 25px;">Chaliye dekhte hain aap kitne sawalo ke sahi jawab dete hain! 10 random sawal puche jayenge.</p>
+        <button class="btn-main" onclick="startGame()">Start Quiz</button>
+    </div>
+
+    <div id="quiz-screen" class="screen hidden">
+        <div class="header">
+            <span id="question-count" style="font-size: 0.9rem; color: #94a3b8;">Question 1/10</span>
+            <span id="timer">00s</span>
+        </div>
+        <div class="progress-container"><div id="progress-bar"></div></div>
+        <div id="question-text">Loading...</div>
+        <div class="options-grid" id="options-container"></div>
+    </div>
+
+    <div id="result-screen" class="screen hidden result-card">
+        <h2 id="result-msg">Kamaal kar diya!</h2>
+        <div class="score-circle" id="final-score">0</div>
+        <div id="stats-text" style="color: #64748b; margin-bottom: 20px;"></div>
+        <button class="btn-main" onclick="resetGame()">Try Again</button>
+    </div>
+</div>
+
+<script>
+        const allQuestions = [
+        { q: "Bharat ki rajdhani kya hai?", a: ["Delhi", "Mumbai", "Kolkata", "Chennai"], correct: 0 },
+        { q: "2 + 2 kitna hota hai?", a: ["3", "4", "5", "6"], correct: 1 },
+        { q: "Cricket me ek over me kitni ball hoti hai?", a: ["4", "5", "6", "8"], correct: 2 },
+        { q: "Asman ka rang kaisa hota hai?", a: ["Lal", "Peela", "Neela", "Hara"], correct: 2 },
+        { q: "Computer ka brain kise kehte hain?", a: ["RAM", "CPU", "Mouse", "Monitor"], correct: 1 },
+        { q: "Taj Mahal kaha hai?", a: ["Agra", "Delhi", "Jaipur", "Lucknow"], correct: 0 },
+        { q: "Hafte me kitne din hote hain?", a: ["5", "6", "8", "7"], correct: 3 },
+        { q: "Water ka chemical formula?", a: ["CO2", "O2", "H2O", "NaCl"], correct: 2 },
+        { q: "Apple ka rang kya hai?", a: ["Red", "Blue", "Black", "Yellow"], correct: 0 },
+        { q: "Suraj kis disha se ugta hai?", a: ["West", "North", "South", "East"], correct: 3 },
+        { q: "India ka national animal?", a: ["Lion", "Tiger", "Elephant", "Cow"], correct: 1 },
+        { q: "1 saal me kitne mahine hote hain?", a: ["10", "11", "12", "13"], correct: 2 },
+        { q: "Baraf kis se banti hai?", a: ["Hawa", "Pani", "Mitti", "Aag"], correct: 1 },
+        { q: "Internet ka king kise kehte hain?", a: ["Yahoo", "Bing", "Google", "Facebook"], correct: 2 },
+        { q: "Human body me kitni bones hoti hain?", a: ["200", "206", "210", "250"], correct: 1 },
+        { q: "Facebook ke owner?", a: ["Elon Musk", "Bill Gates", "Mark Zuckerberg", "Jeff Bezos"], correct: 2 },
+        { q: "ISRO ka headquarter?", a: ["Mumbai", "Bangalore", "Delhi", "Pune"], correct: 1 },
+        { q: "Sabse tej dodne wala janwar?", a: ["Cheetah", "Horse", "Lion", "Dog"], correct: 0 },
+        { q: "Mobile ka avishkar kisne kiya?", a: ["Newton", "Martin Cooper", "Tesla", "Edison"], correct: 1 },
+        { q: "Chand par pehla kadam kisne rakha?", a: ["Neil Armstrong", "Buzz Aldrin", "Rakesh Sharma", "Yuri Gagarin"], correct: 0 },
+        // --- NEW QUESTIONS ADDED BELOW ---
+        { q: "Duniya ka sabse bada registan (Desert)?", a: ["Thar", "Sahara", "Gobi", "Antarctic"], correct: 1 },
+        { q: "Aisa konsa desh hai jaha ek bhi cinema hall nahi hai?", a: ["Bhutan", "Nepal", "Japan", "Norway"], correct: 0 },
+        { q: "YouTube par pehla video kab upload hua?", a: ["2004", "2005", "2006", "2008"], correct: 1 },
+        { q: "Vitamin C ka sabse acha source?", a: ["Dudh", "Amla", "Kela", "Paneer"], correct: 1 },
+        { q: "Duniya ki sabse unchi choti (Peak)?", a: ["K2", "Mount Everest", "Kanchenjunga", "Lhotse"], correct: 1 },
+        { q: "Aisa konsa janwar hai jo khade hokar sota hai?", a: ["Bhalu", "Ghoda", "Hathi", "Sher"], correct: 1 },
+        { q: "Bharat ka 'Iron Man' kise kehte hain?", a: ["Nehru", "Gandhiji", "Sardar Patel", "Subhash Chandra Bose"], correct: 2 },
+        { q: "Zero (0) ka avishkar kis desh ne kiya?", a: ["India", "China", "Egypt", "America"], correct: 0 },
+        { q: "Electricity ka avishkar kisne kiya?", a: ["Newton", "Einstein", "Benjamin Franklin", "Graham Bell"], correct: 2 },
+        { q: "Insan ki sabse badi haddi (Bone) konsi hai?", a: ["Stapes", "Femur", "Ribs", "Skull"], correct: 1 }
+    ];
+
+    let currentQuestions = [];
+    let qIndex = 0;
+    let score = 0;
+    let timerInterval;
+    let seconds = 0;
+
+    function startGame() {
+        currentQuestions = [...allQuestions].sort(() => 0.5 - Math.random()).slice(0, 10);
+        qIndex = 0;
+        score = 0;
+        seconds = 0;
+        
+        document.getElementById('start-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        
+        startTimer();
+        showQuestion();
+    }
+
+    function startTimer() {
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            seconds++;
+            document.getElementById('timer').innerText = seconds.toString().padStart(2, '0') + 's';
+        }, 1000);
+    }
+
+    function showQuestion() {
+        const q = currentQuestions[qIndex];
+        document.getElementById('question-count').innerText = `Question ${qIndex + 1}/10`;
+        document.getElementById('question-text').innerText = q.q;
+        document.getElementById('progress-bar').style.width = `${(qIndex / 10) * 100}%`;
+        
+        const container = document.getElementById('options-container');
+        container.innerHTML = '';
+        
+        q.a.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(index, btn);
+            container.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selected, btn) {
+        const correct = currentQuestions[qIndex].correct;
+        const allBtns = document.querySelectorAll('.option-btn');
+        
+        // Disable all buttons after click
+        allBtns.forEach(b => b.classList.add('disabled'));
+
+        if (selected === correct) {
+            score++;
+            btn.classList.add('correct');
+        } else {
+            btn.classList.add('wrong');
+            allBtns[correct].classList.add('correct');
+        }
+
+        setTimeout(() => {
+            qIndex++;
+            if (qIndex < 10) {
+                showQuestion();
+            } else {
+                endGame();
+            }
+        }, 1200); // Thoda pause takki user answer dekh sake
+    }
+
+    function endGame() {
+        clearInterval(timerInterval);
+        document.getElementById('quiz-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('hidden');
+        
+        document.getElementById('final-score').innerText = score;
+        document.getElementById('stats-text').innerHTML = `Aapne <b>${seconds} seconds</b> me <br> 10 me se <b>${score}</b> sahi jawab diye!`;
+        
+        const msg = score > 7 ? "Shandar Performance!" : score > 4 ? "Acha Khele!" : "Thodi aur mehnat karein!";
+        document.getElementById('result-msg').innerText = msg;
+    }
+
+    function resetGame() {
+        startGame();
+    }
+</script>
+
+</body>
+</html>

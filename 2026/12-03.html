@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Full Screen PWA</title>
+    
+    <script>
+        // Manifest setup
+        const myManifest = {
+            "name": "Full Screen Installer",
+            "short_name": "FullApp",
+            "start_url": ".",
+            "display": "fullscreen",
+            "orientation": "portrait",
+            "background_color": "#000000",
+            "theme_color": "#000000",
+            "icons": [{ "src": "https://via.placeholder.com/192", "sizes": "192x192", "type": "image/png" }]
+        };
+        const blob = new Blob([JSON.stringify(myManifest)], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(blob);
+        document.querySelector('head').insertAdjacentHTML('beforeend', `<link rel="manifest" href="${manifestURL}">`);
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: black; color: white; font-family: sans-serif; 
+            height: 100vh; overflow: hidden; display: flex; flex-direction: column;
+        }
+        .container { 
+            flex: 1; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; border: 3px solid lime;
+        }
+        #installBtn {
+            padding: 15px 30px; font-size: 18px; background: #28a745; 
+            color: white; border: none; border-radius: 8px; cursor: pointer;
+            display: none; /* Default hidden */
+            margin-bottom: 20px;
+        }
+        .info { text-align: center; padding: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="info">
+            <h1>App Testing Mode</h1>
+            <p>Niche wala button dabakar install karein:</p>
+            <br>
+            <button id="installBtn">Install App</button>
+            
+            <p id="status">Checking browser compatibility...</p>
+        </div>
+    </div>
+
+    <script>
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+        const status = document.getElementById('status');
+
+        // 1. Browser se install event pakadna
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block'; // Button dikhao
+            status.innerText = "Install karne ke liye taiyar!";
+        });
+
+        // 2. Install Button par click logic
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('User ne install kar liya');
+                }
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+            }
+        });
+
+        // 3. Service Worker Register (Zaruri hai)
+        if ('serviceWorker' in navigator) {
+            const swCode = `self.addEventListener('fetch', (e) => {});`;
+            const swBlob = new Blob([swCode], {type: 'application/javascript'});
+            navigator.serviceWorker.register(URL.createObjectURL(swBlob));
+        }
+
+        // 4. Check agar pehle se install hai
+        window.addEventListener('appinstalled', () => {
+            status.innerText = "App successfully install ho gayi!";
+            installBtn.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

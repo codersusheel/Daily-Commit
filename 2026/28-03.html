@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Janakpur - Mithila Dham</title>
+    <style>
+        :root {
+            --mithila-red: #b32d00;
+            --janaki-gold: #ffcc00;
+            --soft-white: #f9f9f9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--soft-white);
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1623491910283-f36c4b26673d?auto=format&fit=crop&q=80&w=1200') center/cover;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            border-bottom: 5px solid var(--janaki-gold);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: -50px auto 20px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 { margin: 0; font-size: 2.5rem; }
+        
+        .status-badge {
+            background: var(--mithila-red);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .content {
+            line-height: 1.6;
+            margin-top: 20px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #fff8e1;
+            padding: 15px;
+            border-left: 4px solid var(--mithila-red);
+            border-radius: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Janakpur Dham</h1>
+    <p>Cultural Capital of Nepal</p>
+</header>
+
+<div class="container">
+    <div style="text-align: center;">
+        <span class="status-badge">📍 Currently in Janakpur</span>
+    </div>
+
+    <div class="content">
+        <h2>Swagat Hai!</h2>
+        <p>Janakpur me hona ek anokha anubhav hai. Ye jagah apne Janaki Mandir, Mithila art, aur ponds (pokhari) ke liye poore vishva me prasidh hai.</p>
+        
+        <div class="gallery">
+            <div class="card">
+                <h3>Janaki Mandir</h3>
+                <p>Ek shandaar Naulakha Mandir jo Rajput architecture ka behtareen namuna hai.</p>
+            </div>
+            <div class="card">
+                <h3>Mithila Art</h3>
+                <p>Yahan ki deewaron par bani vibrant paintings yahan ki sanskriti ko darshati hain.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>Made with ❤️ in Nepal 2026</p>
+</footer>
+
+</body>
+</html>

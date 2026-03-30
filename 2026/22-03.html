@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Team Section</title>
+    <style>
+        /* CSS Yahan Shuru Hoti Hai */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .team-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 40px;
+        }
+
+        .team-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* Main Card Setup */
+        .team-card {
+            width: 280px;
+            height: 380px;
+            perspective: 1000px; /* 3D effect ke liye zaroori */
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        /* Hover par Flip Effect */
+        .team-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* Front Side Styling */
+        .card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .name-overlay {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px 0;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        /* Back Side Styling */
+        .card-back {
+            background-color: #1a1a1a;
+            color: white;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+        }
+
+        .card-back h3 { margin: 10px 0; color: #00d2ff; }
+        .card-back p { font-size: 0.95rem; line-height: 1.4; color: #ccc; }
+        .card-back .status { color: #27ae60; font-weight: bold; margin: 10px 0; }
+
+        .btn {
+            margin-top: 15px;
+            padding: 10px 25px;
+            background: #00d2ff;
+            border: none;
+            border-radius: 25px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover { background: #0099cc; transform: scale(1.05); }
+
+    </style>
+</head>
+<body>
+
+    <h1 class="team-title">Hamari Expert Team</h1>
+
+    <div class="team-container">
+        <div class="team-card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="https://via.placeholder.com/300x400" alt="Team Member">
+                    <div class="name-overlay">Rahul Verma</div>
+                </div>
+                <div class="card-back">
+                    <h3>Rahul Verma</h3>
+                    <p><b>Lead Developer</b></p>
+                    <p>Mern Stack expert aur 5 saal ka coding experience.</p>
+                    <p class="status">Available: Mon-Fri</p>
+                    <button class="btn">Message Karein</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="team-card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="https://via.placeholder.com/300x400" alt="Team Member">
+                    <div class="name-overlay">Anjali Singh</div>
+                </div>
+                <div class="card-back">
+                    <h3>Anjali Singh</h3>
+                    <p><b>UI/UX Designer</b></p>
+                    <p>Modern layouts aur user-friendly design banane mein mahir.</p>
+                    <p class="status">Available: 24/7 Remote</p>
+                    <button class="btn">Portfolio Dekhein</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

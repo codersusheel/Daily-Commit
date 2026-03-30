@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hover Card Effect</title>
+    <style>
+        /* Card ki basic styling */
+        .card {
+            width: 300px;
+            height: 400px;
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            text-align: center;
+            transition: all 0.4s ease-in-out;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Image ki styling */
+        .card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.4s ease-in-out; /* Smooth transition */
+        }
+
+        /* Name aur Role */
+        .info h2 {
+            margin: 15px 0 5px;
+            font-family: sans-serif;
+        }
+
+        .info p.role {
+            color: #666;
+            font-weight: bold;
+        }
+
+        /* About section jo shuru me chhupa rahega */
+        .about {
+            opacity: 0;
+            max-height: 0;
+            transition: all 0.4s ease-in-out;
+            font-size: 14px;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        /* --- HOVER EFFECTS --- */
+
+        /* Mouse le jane par image choti hogi */
+        .card:hover img {
+            transform: scale(0.7); 
+        }
+
+        /* Mouse le jane par About dikhne lagega */
+        .card:hover .about {
+            opacity: 1;
+            max-height: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <img src="https://via.placeholder.com/300x250" alt="Profile Image">
+        
+        <div class="info">
+            <h2>John Doe</h2>
+            <p class="role">Software Engineer</p>
+        </div>
+
+        <div class="about">
+            <p>Main ek passionate developer hoon jo nayi cheezein seekhna aur innovative designs banana pasand karta hoon.</p>
+        </div>
+    </div>
+
+</body>
+</html>

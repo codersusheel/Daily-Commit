@@ -1,0 +1,85 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: radial-gradient(circle, #2c003e, #000000);
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    position: relative;
+    text-align: center;
+    z-index: 10;
+}
+
+/* Floating Images Styling */
+.floating-img {
+    position: absolute;
+    width: 80px;
+    filter: drop-shadow(0 0 10px #fff);
+    animation: float 3s ease-in-out infinite;
+}
+
+.left { left: -150px; top: 0; }
+.right { right: -150px; bottom: 0; }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(10deg); }
+}
+
+.main-card {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 50px;
+    border-radius: 30px;
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 50px rgba(255, 0, 255, 0.2);
+}
+
+.glow-text {
+    font-size: 5rem;
+    color: white;
+    margin: 0;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.holi-text {
+    background: linear-gradient(to right, #ff3333, #33ff33, #3333ff, #ffff33);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow 2s linear infinite;
+}
+
+@keyframes rainbow {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+button {
+    padding: 12px 25px;
+    font-weight: bold;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    background: #fff;
+}
+
+#colorBtn { background: #ff007b; color: white; }
+#musicBtn { background: #00d2ff; color: white; }
+
+button:hover { transform: scale(1.1); filter: brightness(1.2); }
+
+canvas { position: absolute; top: 0; left: 0; pointer-events: none; }
