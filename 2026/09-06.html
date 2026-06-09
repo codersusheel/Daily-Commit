@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mera Blog</title>
+    <style>
+        /* CSS RESET & BASE STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        /* HEADER */
+        header {
+            background-color: #2c3e50;
+            color: #ffffff;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* BLOG POST CARD */
+        .blog-post {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .post-meta {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 1rem;
+        }
+
+        .blog-post h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-post p {
+            margin-bottom: 1.2rem;
+            color: #555;
+            text-align: justify;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: #2c3e50;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 600px) {
+            header h1 { font-size: 2rem; }
+            .blog-post { padding: 1.5rem; }
+            footer { position: relative; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Mera Vichar</h1>
+        <p>Zindagi ke anubhav aur kuch batein</p>
+    </header>
+
+    <div class="container">
+        <article class="blog-post">
+            <div class="post-meta">Published on: June 2026 | By: Admin</div>
+            <h2>Zindagi Ka Ek Naya Adhyay</h2>
+            <p>
+                Zindagi hamesha ek jaisi nahi rehti. Yeh humein har mod par kuch naya sikhati hai—kabhi khushi ke pal deti hai, toh kabhi aise mushkil daur se guzarti hai jahan humein andar se majboot banna padta hai. 
+            </p>
+            <p>
+                Waqt chahe jaisa bhi ho, bitaye gaye pal aur apno ki yaadein hamesha hamare sath rehti hain. Unhi yaadon ke sahare humein aage badhna hota hai aur un sapno ko poora karna hota hai jo unhone hamare liye dekhe the.
+            </p>
+        </article>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Mera Blog. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
