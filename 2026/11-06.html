@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Workspace | 11-06-26</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--accent-color);
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        @media (max-width: 680px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Clock Widget */
+        .full-width {
+            grid-column: 1 / -1;
+            text-align: center;
+        }
+        
+        #clock {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text-main);
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Todo List Styles */
+        .todo-input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--accent-color);
+        }
+
+        button {
+            background: var(--accent-color);
+            color: #0f172a;
+            border: none;
+            padding: 0.75rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .todo-list {
+            list-style: none;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .todo-item.completed span {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .todo-actions span {
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
+
+        /* Notepad */
+        textarea {
+            height: 150px;
+            resize: none;
+            line-height: 1.5;
+        }
+
+        .status-tag {
+            font-size: 0.75rem;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="greeting">Hello!</h1>
+        <p>Today is 11 June 2026</p>
+    </header>
+
+    <div class="dashboard-grid">
+        
+        <!-- Time Card -->
+        <div class="card full-width">
+            <div id="clock">00:00:00 PM</div>
+        </div>
+
+        <!-- To-Do Card -->
+        <div class="card">
+            <h2>Tasks <span class="status-tag" id="task-count">0 Remaining</span></h2>
+            <div class="todo-input-group">
+                <input type="text" id="todo-input" placeholder="Add a key task for today...">
+                <button onclick="addTodo()">Add</button>
+            </div>
+            <ul class="todo-list" id="todo-list"></ul>
+        </div>
+
+        <!-- Scratchpad Card -->
+        <div class="card">
+            <h2>Quick Notepad <span class="status-tag">Auto-saves</span></h2>
+            <textarea id="scratchpad" placeholder="Jot down quick ideas, code blocks, or links here..." oninput="saveNotes()"></textarea>
+        </div>
+
+    </div>
+
+    <script>
+        // Real-time Clock & Dynamic Greeting
+        function updateTime() {
+            const now = new Date();
+            
+            // Format Clock
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // '0' should be '12'
+            const strTime = `${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${ampm}`;
+            document.getElementById('clock').textContent = strTime;
+
+            // Dynamic Greeting
+            let greeting = "Good Evening";
+            if (now.getHours() < 12) greeting = "Good Morning";
+            else if (now.getHours() < 17) greeting = "Good Afternoon";
+            document.getElementById('greeting').textContent = `${greeting}, Developer`;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // To-Do Logic with LocalStorage
+        let todos = JSON.parse(localStorage.getItem('today_todos')) || [];
+
+        function renderTodos() {
+            const list = document.getElementById('todo-list');
+            list.innerHTML = '';
+            let remaining = 0;
+
+            todos.forEach((todo, index) => {
+                if(!todo.completed) remaining++;
+                
+                const li = document.createElement('li');
+                li.className = `todo-item ${todo.completed ? 'completed' : ''}`;
+                li.innerHTML = `
+                    <span onclick="toggleTodo(${index})" style="cursor:pointer;">${todo.text}</span>
+                    <div class="todo-actions">
+                        <span onclick="deleteTodo(${index})" style="color: #ef4444;">✕</span>
+                    </div>
+                `;
+                list.appendChild(li);
+            });
+
+            document.getElementById('task-count').textContent = `${remaining} Remaining`;
+            localStorage.setItem('today_todos', JSON.stringify(todos));
+        }
+
+        function addTodo() {
+            const input = document.getElementById('todo-input');
+            const text = input.value.trim();
+            if (text) {
+                todos.push({ text, completed: false });
+                input.value = '';
+                renderTodos();
+            }
+        }
+
+        function toggleTodo(index) {
+            todos[index].completed = !todos[index].completed;
+            renderTodos();
+        }
+
+        function deleteTodo(index) {
+            todos.splice(index, 1);
+            renderTodos();
+        }
+
+        // Enter key for todo input
+        document.getElementById('todo-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') addTodo();
+        });
+
+        // Notepad Logic
+        function saveNotes() {
+            const notes = document.getElementById('scratchpad').value;
+            localStorage.setItem('today_notes', notes);
+        }
+
+        // Initial Load
+        window.onload = function() {
+            renderTodos();
+            document.getElementById('scratchpad').value = localStorage.getItem('today_notes') || '';
+        }
+    </script>
+</body>
+</html>
