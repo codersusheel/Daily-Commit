@@ -1,0 +1,34 @@
+/* 1. Font-face define karna */
+@font-face {
+  font-family: 'HaproIcons';
+  src:  url('fonts/HaproIcons.woff2') format('woff2'),
+        url('fonts/HaproIcons.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+/* 2. Base class banana */
+.hapro {
+  /* Font Awesome jaisa base style */
+  font-family: 'HaproIcons' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 3. Aapke custom icons ki unique classes (Unicode se linked) */
+.hapro-logo::before {
+  content: "\e900"; /* Yeh unicode aapki SVG ka hoga */
+}
+.hapro-verify::before {
+  content: "\e901";
+}
+.hapro-community::before {
+  content: "\e902";
+}
