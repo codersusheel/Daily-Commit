@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>मल्टी-लैंग्वेज टेस्ट पेज</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #555;
+            line-height: 1.6;
+        }
+        /* ट्रांसलेटर बॉक्स को थोड़ा सुंदर बनाने के लिए */
+        #google_translate_element {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #eef2f7;
+            border-radius: 5px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="google_translate_element"></div>
+
+    <<hr>
+
+    <h1>मेरी वेबसाइट में आपका स्वागत है!</h1>
+    <p>यह एक टेस्टिंग पेज है। मैंने यह पूरा कोड सिर्फ हिंदी भाषा में लिखा है।</p>
+    <p>ऊपर दिए गए ड्रॉपडाउन से आप कोई भी भाषा (जैसे English, Marathi, Gujarati) चुन सकते हैं। जैसे ही आप भाषा बदलेंगे, यह पूरा पेज अपने आप ट्रांसलेट हो जाएगा।</p>
+    
+    <button onclick="alert('काम कर रहा है!')">क्लिक करें</button>
+</div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'hi', // क्योंकि हमारा कोड हिंदी में है
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>
