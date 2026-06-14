@@ -25,7 +25,6 @@
             color: #555;
             line-height: 1.6;
         }
-        /* ट्रांसलेटर बॉक्स को थोड़ा सुंदर बनाने के लिए */
         #google_translate_element {
             margin-bottom: 20px;
             padding: 10px;
@@ -38,21 +37,27 @@
 <body>
 
 <div class="container">
+    <!-- यहाँ पर सिर्फ चुनिंदा भाषाएँ ही दिखेंगी -->
     <div id="google_translate_element"></div>
 
-    <<hr>
+    <hr>
 
     <h1>मेरी वेबसाइट में आपका स्वागत है!</h1>
     <p>यह एक टेस्टिंग पेज है। मैंने यह पूरा कोड सिर्फ हिंदी भाषा में लिखा है।</p>
-    <p>ऊपर दिए गए ड्रॉपडाउन से आप कोई भी भाषा (जैसे English, Marathi, Gujarati) चुन सकते हैं। जैसे ही आप भाषा बदलेंगे, यह पूरा पेज अपने आप ट्रांसलेट हो जाएगा।</p>
+    <p>ऊपर दिए गए ड्रॉपडाउन से आप अपनी पसंद की भाषा चुन सकते हैं।</p>
     
     <button onclick="alert('काम कर रहा है!')">क्लिक करें</button>
 </div>
 
+<!-- गूगल ट्रांसलेटर स्क्रिप्ट (अपडेटेड) -->
 <script type="text/javascript">
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({
-    pageLanguage: 'hi', // क्योंकि हमारा कोड हिंदी में है
+    pageLanguage: 'hi', // मूल भाषा हिंदी है
+    
+    // यहाँ हमने सिर्फ काम की भाषाएँ चुनी हैं (en=इंग्लिश, hi=हिंदी, mr=मराठी, gu=गुजराती, bn=बंगाली, ta=तमिल, te=तेलुगु)
+    includedLanguages: 'en,hi,mr,gu,bn,ta,te', 
+    
     layout: google.translate.TranslateElement.InlineLayout.SIMPLE
   }, 'google_translate_element');
 }
